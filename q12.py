@@ -24,22 +24,22 @@ def main():
 
     # Define a D-dimensional starting mean vector. Assume that the mean
     # is 0, 0 to begin with
-    w_mean = np.array([0, 0])
+    mean = np.array([0, 0])
 
     # Define a DxD starting covariance matrix
-    w_covariance = np.linalg.inv(alpha * np.eye(2))
+    covariance = np.linalg.inv(alpha * np.eye(2))
 
     # Fit the data (calculate the new mean and covariance based on the given
     # data). In the initial case we use no data, so this is basically a noop.
-    w_mean, w_covariance = calculate_posterior(x[0:0], y[0:0], w_mean, w_covariance, beta)
+    mean, covariance = calculate_posterior(x[0:0], y[0:0], mean, covariance, beta)
 
     # Plot the prior
     plt.figure(figsize=(10, 12))
     plt.subplot(4, 3, 2)
-    plot_prior(w0, w1, w_mean, w_covariance)
+    plot_prior(w0, w1, mean, covariance)
 
     # Make some initial predictions of W and plot them as functions
-    predictions = predict(x, w_mean, w_covariance, 6)
+    predictions = predict(x, mean, covariance, 6)
     plt.subplot(4, 3, 3)
     plot_predictions(x, predictions)
 
@@ -52,14 +52,14 @@ def main():
         plot_likelihood(w0, w1, x[0:n], y[0:n], beta)
 
         # Fit again with some real data
-        w_mean, w_covariance = calculate_posterior(x[0:n], y[0:n], w_mean, w_covariance, beta)
+        mean, covariance = calculate_posterior(x[0:n], y[0:n], mean, covariance, beta)
 
         # Plot the posterior
         plt.subplot(4, 3, 3*i + 5)
-        plot_posterior(w0, w1, w_mean, w_covariance)
+        plot_posterior(w0, w1, mean, covariance)
 
         # Make some more predictions and plot them
-        predictions = predict(x, w_mean, w_covariance, 6)
+        predictions = predict(x, mean, covariance, num_samples=6)
         plt.subplot(4, 3, 3*i + 6)
         plot_predictions(x, predictions)
 
@@ -72,7 +72,6 @@ def main():
 
 def f(x, w0, w1):
     return w0 * x + w1
-    # return w0 + w1 * x
 
 
 def plot_prior(w0, w1, mean, covariance):
@@ -95,8 +94,6 @@ def plot_likelihood(w0, w1, x, y, beta):
             exponent = -0.5 * (y - mean) * beta * (y - mean)
 
             dist[xt, yt] = (norm_const * np.exp(exponent))
-
-    dist2 = np.random.mul
 
     plt.title('likelihood')
     plt.gca().set_aspect('equal')
