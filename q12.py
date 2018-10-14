@@ -29,32 +29,27 @@ def main():
     # Define a DxD starting covariance matrix
     covariance = np.linalg.inv(alpha * np.eye(2))
 
-    # Fit the data (calculate the new mean and covariance based on the given
-    # data). In the initial case we use no data, so this is basically a noop.
-    mean, covariance = calculate_posterior(x[0:0], y[0:0], mean, covariance, beta)
-
-    # Plot the prior
+    # Plot the prior (which is effectively just the first posterior)
     plt.figure(figsize=(10, 12))
     plt.subplot(4, 3, 2)
-    plot_prior(w0, w1, mean, covariance)
+    plot_posterior(w0, w1, mean, covariance)
 
     # Make some initial predictions of W and plot them as functions
     predictions = predict(x, mean, covariance, 6)
     plt.subplot(4, 3, 3)
     plot_predictions(x, predictions)
 
-    # Start with 0 data points, progressively adding more
+    # Start with 1 data point, progressively adding more
     for i, n in enumerate([1, 2, 20]):
 
         # Visualise likelihood
         plt.subplot(4, 3, 3*i + 4)
-        # TODO: I think this should be the conditional gaussian p(x_n | mu)
         plot_likelihood(w0, w1, x[0:n], y[0:n], beta)
 
-        # Fit again with some real data
+        # Calculate the posterior, given the new data
         mean, covariance = calculate_posterior(x[0:n], y[0:n], mean, covariance, beta)
 
-        # Plot the posterior
+        # Plot the posterior distribution
         plt.subplot(4, 3, 3*i + 5)
         plot_posterior(w0, w1, mean, covariance)
 
@@ -71,14 +66,40 @@ def main():
 
 
 def f(x, w0, w1):
+    """Mapping function f: X -> Y"""
     return w0 * x + w1
 
 
-def plot_prior(w0, w1, mean, covariance):
-    return plot_posterior(w0, w1, mean, covariance)
+def phi(x):
+    """Calculate the "design matrix" of x as defined on p142"""
+    return np.column_stack((x, np.ones(np.size(x))))
+
+
+def calculate_posterior(x, y, mean, covariance, beta):
+    """Update the mean and covariance matrices based on the given data"""
+    phi_x = phi(x)
+    # Precision is the inverse of the covariance
+    precision = np.linalg.inv(covariance)
+
+    new_precision = precision + beta * phi_x.T.dot(phi_x)
+    new_mean = np.linalg.solve(
+        new_precision,
+        precision.dot(mean) + beta * phi_x.T.dot(y)
+    )
+    new_covariance = np.linalg.inv(new_precision)
+    return new_mean, new_covariance
+
+
+def predict(x, mean, covariance, num_samples):
+    """Predict a number of y-values given some x-values"""
+    w_sample = np.random.multivariate_normal(
+        mean, covariance, size=num_samples)
+    y = phi(x).dot(w_sample.T)
+    return y
 
 
 def plot_likelihood(w0, w1, x, y, beta):
+    """TODO: I think this should be the conditional gaussian p(x_n | mu)"""
     n = w0.shape[0]
     dist = np.zeros((n, n))
 
@@ -107,22 +128,10 @@ def plot_likelihood(w0, w1, x, y, beta):
     plt.plot(TRUE_W[0], TRUE_W[1], 'r+')
 
 
-def calculate_posterior(x, y, mean, covariance, beta):
-    # This is the "design matrix" as defined on p142
-    phi_x = phi(x)
-    # Precision is the inverse of the covariance
-    precision = np.linalg.inv(covariance)
-
-    new_precision = precision + beta * phi_x.T.dot(phi_x)
-    new_mean = np.linalg.solve(
-        new_precision,
-        precision.dot(mean) + beta * phi_x.T.dot(y)
-    )
-    new_covariance = np.linalg.inv(new_precision)
-    return new_mean, new_covariance
-
-
 def plot_posterior(w0, w1, mean, covariance):
+    """Make a contour plot over w-space parameterised by the given mean
+    and covariance matrices"""
+
     # M, N = w0.shape[0], w1.shape[0]
     # dist = np.zeros((M, M))
     # S_N_inv = alpha * np.eye(2, 2) + beta * PHI.T * PHI
@@ -152,15 +161,8 @@ def plot_posterior(w0, w1, mean, covariance):
     plt.plot(TRUE_W[0], TRUE_W[1], 'r+')
 
 
-def predict(x, mean, covariance, num_samples):
-    phi_x = phi(x)
-    w_sample = np.random.multivariate_normal(
-        mean, covariance, size=num_samples)
-    y = phi_x.dot(w_sample.T)
-    return y
-
-
 def plot_predictions(x, y):
+    """Plot the given x and y values as linear functions"""
     plt.title('data space')
     plt.gca().set_aspect('equal')
     plt.xlabel('$\mathregular{x}$')
@@ -169,18 +171,6 @@ def plot_predictions(x, y):
     plt.plot(x, y, "-r")
     plt.xlim(-2, 2)
     plt.ylim(-2, 2)
-
-
-def phi(x):
-    return np.column_stack((phi_0(x), phi_1(x)))
-
-
-def phi_0(x):
-    return x
-
-
-def phi_1(x):
-    return np.ones(np.size(x))
 
 
 if __name__ == '__main__':
