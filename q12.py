@@ -96,6 +96,7 @@ def calculate_likelihood(w0, w1, x, y, beta):
     for i in range(0, n - 1):
         for j in range(0, n - 1):
 
+            # See lecture 4 slide 7
             mean = f(x, w0[i], w1[j])
             norm_const = 1.0 / (np.sqrt(2.0 * np.pi) * (1 / beta))
             exponent = -0.5 * (y - mean) * beta * (y - mean)
@@ -120,6 +121,7 @@ def calculate_posterior(x, y, mean, covariance, beta, likelihood, prior):
 def predict(x, mean, covariance, num_samples):
     """Predict a number of y-values given some x-values"""
     w_sample = np.random.multivariate_normal(mean, covariance, size=num_samples)
+    # TODO: understand this bit, which equation is it?
     y = phi(x).dot(w_sample.T)
     return y
 
@@ -132,8 +134,8 @@ def plot_pdf(w0, w1, pdf, i, title):
     plt.gca().set_aspect('equal')
     plt.xlabel('$\mathregular{w_0}$')
     plt.ylabel('$\mathregular{w_1}$')
-    plt.contourf(w0, w1, pdf)
-    plt.plot(TRUE_W[0], TRUE_W[1], 'r+')
+    plt.contourf(w0, w1, pdf, cmap='jet')
+    plt.plot(TRUE_W[0], TRUE_W[1], 'w+', markersize=20)
 
 
 def plot_predictions(x, y, i):
