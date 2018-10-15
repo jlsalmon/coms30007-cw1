@@ -1,0 +1,6 @@
+*.log
+*.aux 
+*.gz
+*.dvi
+*.xml
+main-blx.bib
