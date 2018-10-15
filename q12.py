@@ -29,7 +29,7 @@ def main():
 
     # Plot the prior (which is effectively just the first posterior)
     prior = calculate_prior(w0, w1, mean, covariance)
-    plot_pdf(w0, w1, prior, 2)
+    plot_pdf(w0, w1, prior, 2, 'prior')
 
     # Make some initial predictions of W and plot them as functions
     predictions = predict(x, mean, covariance, 6)
@@ -44,7 +44,7 @@ def main():
         likelihood = calculate_likelihood(w0, w1, x[0:n][-1], y[0:n][-1], beta)
 
         # Plot the likelihood
-        plot_pdf(w0, w1, likelihood, 3 * i + 4)
+        plot_pdf(w0, w1, likelihood, 3 * i + 4, 'likelihood')
 
         # Calculate the running likelihood
         running_likelihood *= likelihood
@@ -54,7 +54,7 @@ def main():
                 x[0:n], y[0:n], mean, covariance, beta, running_likelihood, prior)
 
         # Plot the posterior distribution
-        plot_pdf(w0, w1, posterior, 3*i + 5)
+        plot_pdf(w0, w1, posterior, 3*i + 5, 'posterior')
 
         # Make some more predictions and plot them
         predictions = predict(x, mean, covariance, num_samples=6)
@@ -64,6 +64,7 @@ def main():
         plt.scatter(x[0:n], y[0:n], s=50, zorder=10)
 
     plt.tight_layout()
+    plt.savefig('q12.png')
     plt.show()
 
 
@@ -123,11 +124,11 @@ def predict(x, mean, covariance, num_samples):
     return y
 
 
-def plot_pdf(w0, w1, pdf, i):
+def plot_pdf(w0, w1, pdf, i, title):
     """Make a contour plot over w-space parameterised by the given mean and
     covariance matrices"""
     plt.subplot(4, 3, i)
-    # plt.title('prior/posterior')
+    plt.title(title)
     plt.gca().set_aspect('equal')
     plt.xlabel('$\mathregular{w_0}$')
     plt.ylabel('$\mathregular{w_1}$')
