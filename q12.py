@@ -31,14 +31,11 @@ def main():
 
     # Plot the prior (which is effectively just the first posterior)
     prior = calculate_prior(w0, w1, mean, covariance)
-
-    plt.subplot(4, 3, 2)
-    plot_pdf(w0, w1, prior)
+    plot_pdf(w0, w1, prior, 2)
 
     # Make some initial predictions of W and plot them as functions
     predictions = predict(x, mean, covariance, 6)
-    plt.subplot(4, 3, 3)
-    plot_predictions(x, predictions)
+    plot_predictions(x, predictions, 3)
 
     # Start with 1 data point, progressively adding more
     for i, n in enumerate([1, 2, 20]):
@@ -47,8 +44,7 @@ def main():
         likelihood = calculate_likelihood(w0, w1, x[0:n][-1], y[0:n][-1], beta)
 
         # Plot the likelihood
-        plt.subplot(4, 3, 3 * i + 4)
-        plot_pdf(w0, w1, likelihood)
+        plot_pdf(w0, w1, likelihood, 3 * i + 4)
 
         # Calculate the posterior, given the new data
         # mean, covariance, posterior = calculate_posterior(
@@ -57,13 +53,11 @@ def main():
                 w0, w1, x[0:n], y[0:n], mean, covariance, beta, likelihood, prior)
 
         # Plot the posterior distribution
-        plt.subplot(4, 3, 3*i + 5)
-        plot_pdf(w0, w1, posterior)
+        plot_pdf(w0, w1, posterior, 3*i + 5)
 
         # Make some more predictions and plot them
         predictions = predict(x, mean, covariance, num_samples=6)
-        plt.subplot(4, 3, 3*i + 6)
-        plot_predictions(x, predictions)
+        plot_predictions(x, predictions, 3*i + 6)
 
         # Plot the actual data points for reference
         plt.scatter(x[0:n], y[0:n], s=50, zorder=10)
@@ -159,9 +153,10 @@ def predict(x, mean, covariance, num_samples):
     return y
 
 
-def plot_pdf(w0, w1, pdf):
+def plot_pdf(w0, w1, pdf, i):
     """Make a contour plot over w-space parameterised by the given mean and
     covariance matrices"""
+    plt.subplot(4, 3, i)
     # plt.title('prior/posterior')
     plt.gca().set_aspect('equal')
     plt.xlabel('$\mathregular{w_0}$')
@@ -170,8 +165,9 @@ def plot_pdf(w0, w1, pdf):
     plt.plot(TRUE_W[0], TRUE_W[1], 'r+')
 
 
-def plot_predictions(x, y):
+def plot_predictions(x, y, i):
     """Plot the given x and y values as linear functions"""
+    plt.subplot(4, 3, i)
     plt.title('data space')
     plt.gca().set_aspect('equal')
     plt.xlabel('$\mathregular{x}$')
