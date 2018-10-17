@@ -62,15 +62,49 @@
 
 \section{The Prior}
 
-Q1: Most probabilistic processes in nature tend to follow Gaussian distributions, hence this is generally a good place to start.
+\subsection{Theory}
+
+\subsubsection*{Question 1.1}
+
+A Gaussian likelihood encodes the inherent noise present in most real-world data. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good place to start.
 
 Noise in input data - assume noise is gaussian -> implies gaussian likelihood
 
-Q2; Equally likely to deviate from the mean in all directions. Again a good place to start
+\subsubsection*{Question 1.2}
 
-Q3: The covariance matrix would not be in terms of the identity matrix (for some reason). We would have non-zero values in the offset diagonals which correspond to the correlations between different things.
+Choosing a spherical covariance matrix essentially means that we are assuming that the input noise is going to be equal in all directions, i.e. the distribution is equally likely to deviate from the mean in all directions. Again, this is a good place to start. Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the input and output, which is not true in this case.
 
-Q5: Euclidean distance
+\subsubsection*{Question 2}
+
+TODO
+The covariance matrix would not be in terms of the identity matrix (for some reason). We would have non-zero values in the offset diagonals which correspond to the correlations between different things.
+
+\subsection{Linear Regression}
+
+\subsubsection*{Question 3}
+
+\begin{align}
+  p(\mathbf{Y} | \mathbf{X}, \mathbf{W}, \beta) = \prod_{i=0}^N \mathcal{N} (y_i | \mathbf{W}^T\phi(x_i), \beta^-1)
+\end{align}
+
+\subsubsection*{Question 4}
+
+A distribution is conjugate to another if they both take the same algebraic form, i.e. are in the same probability distribution family. For example, Gaussians are conjugate to each other, and the conjugate to a Bernoulli distribution is a Beta distribution. Conjugates are used as a convenience used to avoid calculating the denominator in Baye's rule (the evidence) which can often be a tricky integral. If the prior and likelihood are conjugate, then their product will be proportional to the posterior.
+
+\subsubsection*{Question 5}
+
+Euclidean distance
+
+\subsubsection*{Question 6}
+
+Derive posterior mean and covariance, start at conjugacy. Watch video https://www.youtube.com/watch?v=nrd4AnDLR3U
+
+\subsection{Non-parametric Regression}
+
+Non-parametric: not defining parameters, just using what we know about the current data to classify new data points
+The simplest example of a. non-parementric model is a K-nearest neieghbour nmodel.
+
+Interpretability: 
 
 \section{Posterior}
 
