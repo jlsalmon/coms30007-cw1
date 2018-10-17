@@ -50,6 +50,8 @@ def main():
         running_likelihood *= likelihood
 
         # Calculate the posterior, given the new data
+        # TODO: calculate mean and covariance from scratch every time and see
+        # what the difference is
         posterior, mean, covariance = calculate_posterior(
                 x[0:n], y[0:n], mean, covariance, beta, running_likelihood, prior)
 
@@ -91,6 +93,8 @@ def calculate_likelihood(w0, w1, x, y, beta):
     """Return the likelihood pdf of the given point x, y"""
     n = w0.shape[0]
     pdf = np.zeros((n, n))
+
+    # TODO: use numpy.random.randn here?
 
     # TODO: can this be rewritten in terms of numpy/scipy functions?
     for i in range(0, n - 1):
