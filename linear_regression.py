@@ -18,16 +18,14 @@ def plot_prior(N):
     x2p_flat = x2p.flatten()
     pos = np.vstack((x1p_flat, x2p_flat))
     pos = pos.T
-
-    # evaluate pdf at points
     Z = w_prior.pdf(pos)
-
     Z = Z.reshape(N, N)
-    # plot contours
-    ax = plt.gca()
     plt.figure(figsize=(4, 4))
     plt.plot(w[0], w[1], 'w+')
+    plt.ylabel('w1')
+    plt.xlabel('w0')
     plt.imshow(Z, cmap='jet', extent=(-2, 2, -2, 2))
+    plt.title('Prior')
     plt.show()
     return Z, pos
 
@@ -43,8 +41,7 @@ def get_xy_value(mean):
     # sig = np.sqrt(0.3)                        # Deviation
     # epsilon = sig * np.random.randn() + mean[0]  # Noise
     epsilon = 0
-    # Todo: Why is this a minus instead of
-    # Todo: yi = w[0] * xi + w[1]
+    # Todo: Why is this a minus instead of yi = w[0] * xi + w[1]
     yi = w[0] * xi - w[1] + epsilon
     return xi, yi
 
@@ -73,21 +70,26 @@ def get_posterior(X, Y, cur_cov):
     return posterior_cov, posterior_mean, posterior_w
 
 
-def plot_posterior(Z_posterior):
+def plot_posterior(Z_posterior, n):
     """Plot the posterior"""
     plt.figure(figsize=(4, 4))
     plt.imshow(Z_posterior, cmap='jet', extent=(-2, 2, -2, 2))
     plt.plot(w[0], w[1], 'w+')
+    plt.ylabel('w1')
+    plt.xlabel('w0')
+    plt.title('Posterior at iteration {}'.format(n+1))
     plt.show()
 
 
-def plot_samples(ws, xy):
+def plot_samples(ws, xy, n):
     """Plot sample functions and the data used to generate them"""
     for i, (w0, w1) in enumerate(ws):
         plt.plot(np.linspace(-2, 2, 201), w0 * np.linspace(-2, 2, 201) + w1)
         print(w0, w1)
-    for j in range(0, len(xy)):
-        plt.scatter(xy[j][0], xy[j][1], s=100, marker="o")
+    plt.scatter([x_y[0] for x_y in xy], [x_y[1] for x_y in xy], s=100, marker="o")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Sample functions at iteration {}'.format(n+1))
     plt.show()
 
 
@@ -96,24 +98,20 @@ def main():
     prior_mean = np.array([0, 0])
     prior_cov = [[1, 0],
                  [0, 1]]
-
     num_data = 201
     xy = []
-
     # Plot prior distribution
-    Z_post, pos = plot_prior(num_data)
-    for i in range(0, 25):
-
+    post_z, pos = plot_prior(num_data)
+    for i in range(20):
         xy.append(get_xy_value(prior_mean))
-
         Y = get_ys(xy)
         X = get_x_matrix(xy)
         post_cov, post_mean, post_w = get_posterior(X, Y, prior_cov)
-        Z_post = post_w.pdf(pos).reshape(num_data, num_data)
-        plot_posterior(Z_post)
-
-        ws = np.random.multivariate_normal(post_mean.flatten(), post_cov, 5)
-        plot_samples(ws, xy)
+        post_z = post_w.pdf(pos).reshape(num_data, num_data)
+        if i == 0 or i == 2 or i == 19:
+            plot_posterior(post_z, i)
+            ws = np.random.multivariate_normal(post_mean.flatten(), post_cov, 5)
+            plot_samples(ws, xy, i)
 
 
 if __name__ == '__main__':
