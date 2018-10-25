@@ -175,10 +175,30 @@ Assumptions and preferences are very much similar. Preferences are the assumptio
 
 Beliefs inform assumptiosn (gaussian mean 0)
 
-\begin{align}
-  f &\sim \mathcal{N}\left(\boldsymbol{0},\beta^{-1}\mathbf{I}\right)\\
-  \beta &\sim \Gamma(a)
-\end{align}
+\subsubsection*{Question 16}
+
+We have assumed that the latent input variables are independent (since the covariance matrix is spherical) and we assume (or prefer) that they are centred around the origin (zero mean).
+
+\subsubsection*{Question 17}
+
+Look at the Gaussian Identities document to try to outline the steps to integrate out the variable we are not interested in
+
+\subsubsection*{Question 18.1}
+
+ML finds the parameters that maximise the likelihood
+
+MAP finds the parameters that maximise the posterior distribution.
+
+The prior is included in MAP, while ML only includes the likelihood. MAP takes both prior and likelihood into account.
+https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/
+
+\subsubsection*{Question 18.2}
+
+With only one data point, ML will be less accurate than MAP since it does not take the prior into account. However as more and more data is seen, the two will begin to look more and more similar.
+
+\subsubsection*{Question 18.3}
+
+Because the denominator equals one? The integral of the posterior equals one?
 
 \section{Evidence}
 
