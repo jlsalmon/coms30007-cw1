@@ -91,6 +91,8 @@ The covariance matrix would not be in terms of the identity matrix (for some rea
 
 A distribution is conjugate to another if they both take the same algebraic form, i.e. are in the same probability distribution family. For example, Gaussians are conjugate to each other, and the conjugate to a Bernoulli distribution is a Beta distribution. Conjugates are used as a convenience used to avoid calculating the denominator in Baye's rule (the evidence) which can often be a tricky integral. If the prior and likelihood are conjugate, then their product will be proportional to the posterior.
 
+A conjugate prior can simplify the equations for sampling. A gaussian prior is conjugate to to the likelihood function
+
 \subsubsection*{Question 5}
 
 Euclidean distance from the mean
@@ -159,6 +161,7 @@ It is a weighted average of some functions, based on how likely each function is
 \caption{TODO.}
 \label{fig2}
 \end{figure}
+
 
 \section{Posterior}
 
