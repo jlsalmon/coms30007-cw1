@@ -79,7 +79,7 @@ Choosing a spherical covariance matrix essentially means that we are assuming th
 TODO
 The covariance matrix would not be in terms of the identity matrix (for some reason). We would have non-zero values in the offset diagonals which correspond to the correlations between different things.
 
-\subsection{Linear Regression}
+\subsubsection{Linear Regression}
 
 \subsubsection*{Question 3}
 
@@ -93,34 +93,84 @@ A distribution is conjugate to another if they both take the same algebraic form
 
 \subsubsection*{Question 5}
 
-Euclidean distance
+Euclidean distance from the mean
+
+X appears only in the gaussian exponential part
 
 \subsubsection*{Question 6}
 
 Derive posterior mean and covariance, start at conjugacy. Watch video https://www.youtube.com/watch?v=nrd4AnDLR3U
 
-\subsection{Non-parametric Regression}
+\subsubsection{Non-parametric Regression}
 
 \subsubsection*{Question 7}
 
 Non-parametric: not defining parameters, just using what we know about the current data to classify new data points
 The simplest example of a. non-parementric model is a K-nearest neieghbour nmodel.
+The data are the parameters
 
 Interpretability: 
 
 \subsubsection*{Question 8}
 
-This prior represents the space of possible functions. It defines
+This prior represents the space of all possible functions. 
+
+We think that smooth functions are more likely, but non-smooth functions e.q. sawtooth are non-zero but very unlikely
 
 \subsubsection*{Question 9}
 
-All possible functions?
+All possible functions? Yes, but some are more likely than others
 
 \subsubsection*{Question 10}
 
+\begin{align}
+  p(\mathbf{Y},\mathbf{X}, f, \mathbf{\theta}) = p(Y|f)p(F|X,\theta)p(X)p(\theta)
+\end{align}
 
+TODO draw graphical model
+
+Assumptions:
+- X and theta do not depend on anything
+- F depends on theta and X
+- Y depends on F
+
+\subsubsection*{Question 11}
+
+The marginal in Eq. 2 connects the prior and the data because we now have a way to directly generate Y values given X and theta value without knowing the actual form of f.
+
+The uncertainty "filters" through this ...
+We are uncertain about the function, so by marginalising it out the uncertainty gets "baked in" to Y.
+
+The fact that $\mathbf{\theta}$ is left on the LHS of the expression after marginalisation means that it is needed (along with x) to calculate Y. Y is dependent on theta.
+
+Use the model diagram to help?
+
+Marginalisation is the average of some distributions
+It is a weighted average of some functions, based on how likely each function is
+
+\subsection{Practical}
+
+\subsubsection{Linear Regression}
+
+\subsubsection*{Question 12.1}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=8cm]{q12.png}}
+\caption{TODO.}
+\label{fig2}
+\end{figure}
 
 \section{Posterior}
+
+\subsubsection*{Question 15}
+
+Assumptions are what we assume to be true about something. They are a starting point, a way of being able to move forward from a point given no data about the problem. If we had all the data in the world, we would need no assumptions.
+
+Use the assumptions to formulate a prior, use the prior to formulate your beliefs. Believe that the smooth lines are more likely. Prefer straight or flat lines.
+
+Assumptions and preferences are very much similar. Preferences are the assumptions you want to use the most because it is easier exploiting conjugacy)
+
+Beliefs inform assumptiosn (gaussian mean 0)
 
 \begin{align}
   f &\sim \mathcal{N}\left(\boldsymbol{0},\beta^{-1}\mathbf{I}\right)\\
