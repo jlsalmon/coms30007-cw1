@@ -68,6 +68,8 @@ def main():
             plt.plot(x_n_plus_one, sample)
             plt.title("l = {}".format(l))
 
+    plt.tight_layout()
+    plt.savefig('non_parametric_regression.png', bbox_inches='tight')
     plt.show()
 
 
