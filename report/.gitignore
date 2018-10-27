@@ -3,4 +3,8 @@
 *.gz
 *.dvi
 *.xml
+*.blg
+*.fdb_latexmk
+*.fls
+*.tex~
 main-blx.bib
