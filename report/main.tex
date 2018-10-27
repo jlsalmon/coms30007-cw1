@@ -194,8 +194,15 @@ The posterior converges on the position of $\mathbf{W}$ because...
 \subsubsection*{Question 13.4}
 Increasing the length-scale of the covariance function allows us to constrain the functions smoothness. A smaller length-scale creates  functions with more rapid changes than those with a larger length-scale. This is because a higher length-scale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
 The samples in Fig 5 
+
 \subsubsection{Question 14}
 Need to describe the plots. What happens if we use a diagonal covariance matrix to the squared exponential. 
+
+%functions not passing exactly through the data, do you have a diagonal term?
+%If you look at slide 66 in lecture 6, if you set \sigma=0 then the functions
+%should go straight through the data, if you have it larger than zero you have
+%a "residual" variance that will be like a noise that can never be removed.
+
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=\linewidth]{non_parametric_regression.png}}
 \caption{Implementation of non-parametric regression with changing length-scales. }
@@ -233,12 +240,30 @@ The denominator has no bearing on argmax w becuase the integral is constant with
 Because the denominator equals one? The integral of the posterior equals one?
 
 \subsubsection*{Question 19}
-Not sure.
+
+The objective function can be written as:
+
+\begin{multline}
+  \mathcal{L}(\mathbf{W}) = -log(p(\mathbf{Y}|\mathbf{W}, \bm{\mu}, \bm{\sigma}^2)) \\
+  = -\frac{ND}{2}log(2\pi) - \frac{N}{2}log|\mathbf{C}| \\
+     - \frac{1}{2}\sum^N_{n=1}(\mathbf{x_n} - \bm{\mu}^T\mathbf{C}^{-1}(\mathbf{x_n} - \bm{\mu})
+\end{multline}
+
+where $\mathbf{C} = \mathbf{WW^T} + \bm{\sigma^2}\mathbf{I}$. The gradients of the objective function with respect to the parameters can be written as:
+
+\begin{multline}
+  \frac{\partial \mathcal{L}}{\partial \mathbf{W}} = tr(\mathbf{C^{-1}WJ_{ij} +  J_{ji}W^T}) \\
+  + tr(\mathbf{YY^T(-C^{-1}(WJ_{ij} +  J_{ji}W^T)C^{-1}})
+\end{multline}
+
+where $WJ_{ij} +  J_{ji}W^T$ = $\frac{\partial \mathbf{C}}{\partial \mathbf{W_{ij}}}$.
 
 \subsubsection*{Question 20}
 The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. (not 100\% sure). 
 
 \subsubsection*{Question 21}
+
+
 
 \subsubsection*{Question 22}
 
