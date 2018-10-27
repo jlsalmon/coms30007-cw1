@@ -26,6 +26,8 @@
 \input{preamble.tex} % Specifies the document structure and loads requires packages
 
 \usepackage{lipsum}
+\usepackage{caption}
+\usepackage{subcaption}
 
 %----------------------------------------------------------------------------------------
 %	ARTICLE INFORMATION
@@ -54,7 +56,7 @@
 %----------------------------------------------------------------------------------------
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
-\lettrineabstract{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce maximus nisi ligula. Morbi laoreet ex ligula, vitae lobortis purus mattis vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ac metus ut turpis mollis placerat et nec enim. Duis tristique nibh maximus faucibus facilisis. Praesent in consequat leo. Maecenas condimentum ex rhoncus, elementum diam vel, malesuada ante.}
+\lettrineabstract{Abstract}
 
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
@@ -65,19 +67,16 @@
 \subsection{Theory}
 
 \subsubsection*{Question 1.1}
-
-A Gaussian likelihood encodes the inherent noise present in most real-world data. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good place to start.
-
-Noise in input data - assume noise is gaussian -> implies gaussian likelihood
-
+A Gaussian likelihood encodes the inherent noise present in most real-world data. The central limit theorem states that in most cases, when independent random variables are added and normalised, the result is a gaussian distribution. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good first assumption to make about unknown data.
+%Noise in input data - assume noise is gaussian -> implies gaussian likelihood
 \subsubsection*{Question 1.2}
+Choosing a spherical covariance matrix means that we are assuming that the distribution is equally likely to deviate from the mean in all directions. Additionally, we assume that all dimensions of \emph{y} are independent, and therefore do not covary with one another. Again, this is a good place to start. \par
+Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the different dimensions of \emph{y}.
 
-Choosing a spherical covariance matrix essentially means that we are assuming that the input noise is going to be equal in all directions, i.e. the distribution is equally likely to deviate from the mean in all directions. Again, this is a good place to start. Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the input and output, which is not true in this case.
+% *input and output, which is not true in this case.
 
 \subsubsection*{Question 2}
-
-TODO
-The covariance matrix would not be in terms of the identity matrix (for some reason). We would have non-zero values in the offset diagonals which correspond to the correlations between different things.
+The covariance matrix would not be in terms of the identity matrix. We would have non-zero values in the offset diagonals which correspond to the correlations between different variables. If we apply the product rule, 
 
 \subsubsection{Linear Regression}
 
@@ -89,15 +88,15 @@ The covariance matrix would not be in terms of the identity matrix (for some rea
 
 \subsubsection*{Question 4}
 
-A distribution is conjugate to another if they both take the same algebraic form, i.e. are in the same probability distribution family. For example, Gaussians are conjugate to each other, and the conjugate to a Bernoulli distribution is a Beta distribution. Conjugates are used as a convenience used to avoid calculating the denominator in Baye's rule (the evidence) which can often be a tricky integral. If the prior and likelihood are conjugate, then their product will be proportional to the posterior.
+A distribution is conjugate to another if they both take the same algebraic form, meaning that they are in the same probability distribution family. For example, Gaussians are conjugate to each other, and the conjugate to a Bernoulli distribution is a Beta distribution. Conjugates are used as a convenience to avoid calculating the denominator in Baye's rule (the evidence) which can often be an integral. If the prior and likelihood are conjugate, then their product will be proportional to the posterior.
 
-A conjugate prior can simplify the equations for sampling. A gaussian prior is conjugate to to the likelihood function
+%A conjugate prior can simplify the equations for sampling. A gaussian prior is conjugate to to the likelihood function
 
 \subsubsection*{Question 5}
 
 Euclidean distance from the mean
-
 X appears only in the gaussian exponential part
+Euclidean distance because of spherical covariance? 
 
 \subsubsection*{Question 6}
 
@@ -107,21 +106,17 @@ Derive posterior mean and covariance, start at conjugacy. Watch video https://ww
 
 \subsubsection*{Question 7}
 
-Non-parametric: not defining parameters, just using what we know about the current data to classify new data points
-The simplest example of a. non-parementric model is a K-nearest neieghbour nmodel.
-The data are the parameters
-
-Interpretability: 
+Non-parametric models are not focused on defining a set of parameters, but using what we know about the current data to classify new unseen data points. The data can be seen as analogous to the parameters. A good example of this is the K-nearest-neighbor model, which classifies new data points based on its surrounding classes. Unlike parametric models, non-parametric models do not assume that there is a finite set of parameters. Because of this, their complexity is not bounded by the number of parameters. 
+\par
+Non-parametric models may be more difficult to interpret as they do not have direct parameters to describe the model. 
 
 \subsubsection*{Question 8}
 
-This prior represents the space of all possible functions. 
-
-We think that smooth functions are more likely, but non-smooth functions e.q. sawtooth are non-zero but very unlikely
+This prior represents the space of all possible functions, however we want this to be constrained by making some functions more likely than others. The covariance $ k(\mathbf{X}, \mathbf{X})$ allows us to assume that any two values $x_i$ and $x_j$ covary, therefore $f_i$ and $f_j$ can also be expected to covary. This means that we think that smooth functions are more likely, however the probability of saw-tooth functions are non-zero.
 
 \subsubsection*{Question 9}
 
-All possible functions? Yes, but some are more likely than others
+All functions are possible, however some are more likely than others. 
 
 \subsubsection*{Question 10}
 
@@ -129,90 +124,125 @@ All possible functions? Yes, but some are more likely than others
   p(\mathbf{Y},\mathbf{X}, f, \mathbf{\theta}) = p(Y|f)p(F|X,\theta)p(X)p(\theta)
 \end{align}
 
-TODO draw graphical model
-
-Assumptions:
-- X and theta do not depend on anything
-- F depends on theta and X
-- Y depends on F
-
-\subsubsection*{Question 11}
-
-The marginal in Eq. 2 connects the prior and the data because we now have a way to directly generate Y values given X and theta value without knowing the actual form of f.
-
-The uncertainty "filters" through this ...
-We are uncertain about the function, so by marginalising it out the uncertainty gets "baked in" to Y.
-
-The fact that $\mathbf{\theta}$ is left on the LHS of the expression after marginalisation means that it is needed (along with x) to calculate Y. Y is dependent on theta.
-
-Use the model diagram to help?
-
-Marginalisation is the average of some distributions
-It is a weighted average of some functions, based on how likely each function is
-
-\subsection{Practical}
-
-\subsubsection{Linear Regression}
-
-\subsubsection*{Question 12.1}
-
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=8cm]{q12.png}}
-\caption{TODO.}
+\centerline{\includegraphics[width=0.5\linewidth]{question_10.png}}
+\caption{Graphical model of the joint distribution.}
 \label{fig2}
 \end{figure}
 
-\subsubsection{Non-parametric Regression}
+\begin{itemize}
+\item $\mathbf{X}$ and $\theta$ do not depend on anything;
+\item $\mathbf{F}$ depends on $\theta$ and $\mathbf{X}$;
+\item $\mathbf{Y}$ depends on $\mathbf{F}$, but is is conditionally independent of $\mathbf{X}$ and $\theta$.
+\end{itemize}
+\subsubsection*{Question 11}
 
+The marginalisation in Eq. 2 connects the prior and the data because we now have a way to directly generate $\mathbf{Y}$  values given $\mathbf{X}$ and $\theta$ value without knowing the actual form of $f$.
+\par
+Because we are uncertain about $f$, when we marginalise it out, the uncertainty gets pushed onto $\mathbf{Y}$.
+\par
+The fact that $\mathbf{\theta}$ is left on the left hand side of the expression after marginalisation means that it is needed, with $\mathbf{x}$, to calculate $\mathbf{Y}$. This implies that $\mathbf{Y}$ is dependent on theta.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.5\linewidth]{question_11.png}}
+\caption{Graphical model of the marginalised distribution.}
+\label{fig2}
+\end{figure}
+
+%Use the model diagram to help?
+%Marginalisation is the average of some distributions
+%It is a weighted average of some functions, based on how likely each function is
+\subsection{Practical}
+\subsubsection{Linear Regression}
+\subsubsection*{Question 12.1}
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=\linewidth]{q12.png}}
+\caption{Implementation of linear regression. The left hand column plots the likelihood. The middle column plots the prior/posterior, and the right hand column shows six random sample functions. Plots are drawn after one, two and twenty data points are revealed.}
+\label{fig2}
+\end{figure}
+
+\subsubsection*{Question 12.5}
+After a single data point is added, we can see that the posterior distribution begins to squash in one direction to converge onto the parameters $\mathbf{W}$. When we sample from this distribution, there are many lines passing through the point at different gradients, which is because we cannot define two parameters from a single data point. As we begin to reveal more data, the posterior distribution centres onto $\mathbf{W}$ and the sample functions fit more closely to the data points. This is a desirable behaviour as it shows that we have relearned the parameters of the model used to generate the data $\mathbf{X}$.
+\subsubsection*{Question 12.6}
+The posterior converges on the position of $\mathbf{W}$ because... 
 \subsubsection*{Question 13}
 
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{ls01.png}
+  \caption{Length-scale of 0.1.}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{ls05.png}
+  \caption{Length-scale of 0.5.}
+  \label{fig:sub2}
+\end{subfigure}
+\begin{subfigure}{.5\linewidth}
+\centering
+\includegraphics[width=0.9\linewidth]{ls5.png}
+\caption{Length-scale of 5}
+\end{subfigure}
+\caption{Squared exponential with varying length scales. }
+\label{fig:test}
+\end{figure}
 
-
-\subsubsection*{Question 14}
-
-functions not passing exactly through the data, do you have a diagonal term?
-If you look at slide 66 in lecture 6, if you set \sigma=0 then the functions
-should go straight through the data, if you have it larger than zero you have
-a "residual" variance that will be like a noise that can never be removed.
+\subsubsection*{Question 13.4}
+Increasing the length-scale of the covariance function allows us to constrain the functions smoothness. A smaller length-scale creates  functions with more rapid changes than those with a larger length-scale. This is because a higher length-scale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
+The samples in Fig 5 
+\subsubsection{Question 14}
+Need to describe the plots. What happens if we use a diagonal covariance matrix to the squared exponential. 
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=\linewidth]{non_parametric_regression.png}}
+\caption{Implementation of non-parametric regression with changing length-scales. }
+\label{fig2}
+\end{figure}
 
 \section{Posterior}
 
 \subsubsection*{Question 15}
+We use our beliefs to find a starting point for the problem and to make assumptions about the data, or any other characteristics of the problem. Assumptions are what we assume to be true about something. If we had all the data we required for a problem, there would be no need to assume anything. This gives us a way to reason when we have very little information. \par
+A preference is an assumption that we want to use because it is easier to do so. For example using a gaussian likelihood so that the posterior is also gaussian. -
 
-Assumptions are what we assume to be true about something. They are a starting point, a way of being able to move forward from a point given no data about the problem. If we had all the data in the world, we would need no assumptions.
-
-Use the assumptions to formulate a prior, use the prior to formulate your beliefs. Believe that the smooth lines are more likely. Prefer straight or flat lines.
-
-Assumptions and preferences are very much similar. Preferences are the assumptions you want to use the most because it is easier exploiting conjugacy)
-
-Beliefs inform assumptiosn (gaussian mean 0)
+We use beliefs and assumptions to formulate a prior. Believe that the smooth lines are more likely. Prefer straight or flat lines.
 
 \subsubsection*{Question 16}
 
-We have assumed that the latent input variables are independent (since the covariance matrix is spherical) and we assume (or prefer) that they are centred around the origin (zero mean).
+Since the covariance matrix is spherical, we have assumed that the latent input variables are independent and that they are centred around the origin. 
 
 \subsubsection*{Question 17}
 
 Look at the Gaussian Identities document to try to outline the steps to integrate out the variable we are not interested in
 
 \subsubsection*{Question 18.1}
+A maximum-a-posteriori (MAP) estimation is equal to the mode of the posterior. MAP finds the parameters that maximise the posterior distribution. \par
+The maximum likelihood (ML) assumes a uniform prior distribution of the parameters. It finds the parameters that maximise the likelihood. 
 
-ML finds the parameters that maximise the likelihood
-
-MAP finds the parameters that maximise the posterior distribution.
-
-The prior is included in MAP, while ML only includes the likelihood. MAP takes both prior and likelihood into account.
-https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/
+%The prior is included in MAP, while ML only includes the likelihood. MAP takes both prior and likelihood into account.
+%https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/
 
 \subsubsection*{Question 18.2}
-
-With only one data point, ML will be less accurate than MAP since it does not take the prior into account. However as more and more data is seen, the two will begin to look more and more similar.
+With only one data point, ML will be less accurate than MAP since it does not take the prior into account. However as more data is seen, the two will begin to converge on one another. 
 
 \subsubsection*{Question 18.3}
-
+The denominator has no bearing on argmax w becuase the integral is constant with respect to $\mathbf{W}$
 Because the denominator equals one? The integral of the posterior equals one?
 
-\section{Evidence}
+\subsubsection*{Question 19}
+Not sure.
+
+\subsubsection*{Question 20}
+The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. (not 100\% sure). 
+
+\subsubsection*{Question 21}
+
+\subsubsection*{Question 22}
+
+\section{The Evidence}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY

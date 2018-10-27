@@ -1,0 +1,22 @@
+# Fdb version 3
+["pdflatex"] 1540628215 "main.tex" "main.pdf" "main" 1540628234
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1136768653 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
+  "/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf" 1367878877 6963 2e0cb3d93aa64508bdb0db58ae900d97 ""
+  "/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def" 1456440043 50112 f44490c2cb959606ae206a8f9f3f70e2 ""
+  "/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty" 1456440043 13499 cfeb1da37929c37eb2a356b8abd63f74 ""
+  "/usr/share/texlive/texmf-dist/tex/generic/babel/luababel.def" 1456440043 12449 6adae0e1ec168a225d2f49f829a663b8 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/base/article.cls" 1454284088 20708 39fdf9e2fb65617012fa7382a351f485 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo" 1454284088 9179 4cd3c5f593e63512893b8ac0123f1bd7 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty" 1428932888 2594 d18d5e19aa8239cf867fa670c556d2e9 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-luatex.def" 1369617620 37650 26dbdbfa7ec8abad25e113d96a3f2922 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty" 1369617620 68045 fe140a1fc105016163d67aadd9efe194 ""
+  "/var/lib/texmf/tex/generic/config/language.dat" 1526590743 2763 2c8b3e1a85c3da8d8add21fc9b6c476f ""
+  "/var/lib/texmf/web2c/luatex/lualatex.fmt" 1526590738 1293995 b3c516efd19bce29df45de80cd5cbd73 ""
+  "luatexbase.sty" 0 -1 0 ""
+  "main.aux" 1540461943 1881 179646d7ecca1c8511b3f711db0387de ""
+  "main.tex" 1540628234 8776 a65141d96adbd8e73c64ecea5025e159 ""
+  "preamble.tex" 1540234544 6328 17e9f1aefc3b0b7b55c722a7665cafdd ""
+  (generated)
+  "main.aux"
+  "main.pdf"
+  "main.log"
