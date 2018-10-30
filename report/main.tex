@@ -226,7 +226,38 @@ Since the covariance matrix is spherical, we have assumed that the latent input 
 
 \subsubsection*{Question 17}
 
-Look at the Gaussian Identities document to try to outline the steps to integrate out the variable we are not interested in
+One way to obtain the marginal distribution $p(\mathbf{Y|W})$ would be to write out the exponents of the likelihood and the prior and do a lot of algebra to work out the actual integral. But there is a simpler way.
+
+Firstly, we know that $\mathbf{Y = WX + \epsilon}$ and we know that $\mathbf{X}$ is Gaussian since we put a prior over it. We know that we can do any linear transformation to a Gaussian and it is still a Gaussian because Gaussians are closed under linear transformation. So we know that $p(\mathbf{Y|W})$ is going to be a gaussian. All we need to do is work out the mean and the covariance of the distribution we are looking for.
+
+We know that the mean is the expectation of $\mathbf{Y}$, so we can therefore write
+
+\begin{align} \label{eq:6}
+  \mathbb{E}[\mathbf{Y}] = \mathbb{E}[\mathbf{WX} + \epsilon].
+\end{align}
+
+We know the expected value of $\mathbf{X}$ since we picked a prior over $\mathbf{X}$ and gave it a zero mean, so ti will be zero. We can also ignore $\epsilon$ in the expectation since it is just a noise parameter. Therefore we can deduce that the mean $\mu$ is just going to be zero.
+
+Now to work out the covariance, we know that it is going to be the expected value of $\mathbf{Y}$ multiplied by its transpose, which we can write similarly to (\ref{eq:6}) as
+
+\begin{align}
+  \mathbb{E}[\mathbf{YY^T}] = \mathbb{E}[\mathbf{(WX + \epsilon)(WX + \epsilon)^T}] \\
+  = \mathbb{E}[\mathbf{WXX^TW^T}] + \mathbb{E}[\mathbf{\epsilon\epsilon^T}]
+\end{align}
+
+The expectation of the noise parameter $\epsilon$ we have already defined as being $\sigma^2\mathbf{I}$. Since our prior over $\mathbf{X}$ was zero-mean, we know that $\mathbf{XX^T}$ is going to be the identity matrix, therefore can simply write the covariance as
+
+\begin{align}
+  \mathbb{E}[\mathbf{Y}] = \mathbf{WW^T + \sigma^2I}
+\end{align}
+
+which gives us the resulting marginal distribution
+
+\begin{align}
+  p(\mathbf{Y|W}) = \mathcal{N}(0, \mathbf{WW^T + \sigma^2I})
+\end{align}
+
+and we are done.
 
 \subsubsection*{Question 18.1}
 A maximum-a-posteriori (MAP) estimation is equal to the mode of the posterior. It finds the parameters that maximise the posterior distribution. Because it takes the posterior into account, it is a more computationally expensive operation. \par
