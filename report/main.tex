@@ -56,7 +56,7 @@
 %----------------------------------------------------------------------------------------
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
-\lettrineabstract{Abstract}
+
 
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
@@ -165,7 +165,7 @@ The fact that $\mathbf{\theta}$ is left on the left hand side of the expression 
 \subsubsection*{Question 12.5}
 After a single data point is added, we can see that the posterior distribution begins to squash in one direction to converge onto the parameters $\mathbf{W}$. When we sample from this distribution, there are many lines passing through the point at different gradients, which is because we cannot define two parameters from a single data point. As we begin to reveal more data, the posterior distribution centres onto $\mathbf{W}$ and the sample functions fit more closely to the data points. This is a desirable behaviour as it shows that we have relearned the parameters of the model used to generate the data $\mathbf{X}$.
 \subsubsection*{Question 12.6}
-The posterior converges on the position of $\mathbf{W}$ because... 
+The posterior converges on the position of $\mathbf{W}$ because after a new data point is added, we update the parameters using the newly calculated mean and covariance. 
 \subsubsection*{Question 13}
 
 \begin{figure}[!htb]
@@ -193,7 +193,10 @@ The posterior converges on the position of $\mathbf{W}$ because...
 
 \subsubsection*{Question 13.4}
 Increasing the length-scale of the covariance function allows us to constrain the functions smoothness. A smaller length-scale creates  functions with more rapid changes than those with a larger length-scale. This is because a higher length-scale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
-The samples in Fig 5 
+The samples in Fig 5 show the effect of varying lengthscales. 
+
+\subsubsection*{Question 13.5}
+The lengthscale encodes how smooth the assume the function to be. A smaller lengthscale produces a function with higher peaks and lower troughs than a higher lengthscale. 
 
 \subsubsection{Question 14}
 Need to describe the plots. What happens if we use a diagonal covariance matrix to the squared exponential. 
@@ -226,8 +229,9 @@ Since the covariance matrix is spherical, we have assumed that the latent input 
 Look at the Gaussian Identities document to try to outline the steps to integrate out the variable we are not interested in
 
 \subsubsection*{Question 18.1}
-A maximum-a-posteriori (MAP) estimation is equal to the mode of the posterior. MAP finds the parameters that maximise the posterior distribution. \par
-The maximum likelihood (ML) assumes a uniform prior distribution of the parameters. It finds the parameters that maximise the likelihood. 
+A maximum-a-posteriori (MAP) estimation is equal to the mode of the posterior. It finds the parameters that maximise the posterior distribution. Because it takes the posterior into account, it is a more computationally expensive operation. \par
+The maximum likelihood (ML) can be seen as a type of MAP estimation, which assumes a uniform prior distribution of the parameters. In doing so, it finds the parameters that maximise the likelihood. \par
+Type-II Maximum likelihood finds the parameters that maximise the marginal likelihood. 
 
 %The prior is included in MAP, while ML only includes the likelihood. MAP takes both prior and likelihood into account.
 %https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/
@@ -236,8 +240,7 @@ The maximum likelihood (ML) assumes a uniform prior distribution of the paramete
 With only one data point, ML will be less accurate than MAP since it does not take the prior into account. However as more data is seen, the two will begin to converge on one another. 
 
 \subsubsection*{Question 18.3}
-The denominator has no bearing on argmax w becuase the integral is constant with respect to $\mathbf{W}$
-Because the denominator equals one? The integral of the posterior equals one?
+The denominator of the posterior distribution has no bearing on the result as it will always be positive, and depends on the parameters $\mathbf{W}$. 
 
 \subsubsection*{Question 19}
 
@@ -258,7 +261,7 @@ where $\mathbf{C} = \mathbf{WW^T} + \bm{\sigma^2}\mathbf{I}$. The gradients of t
 where $\mathbf{WJ_{ij} +  J_{ji}W^T}$ = $\frac{\partial \mathbf{C}}{\partial \mathbf{W_{ij}}}$.
 
 \subsubsection*{Question 20}
-The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. (not 100\% sure). 
+The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. Therefore, by marginalising out $\mathbf{X}$, we lose some of the information required to calculate an accurate $\mathbf{Y}$.
 
 \subsubsection*{Question 21}
 
@@ -297,6 +300,18 @@ Choosing any randomly initialised W matrix and performing the reverse mapping al
 
 
 \section{The Evidence}
+
+\subsubsection*{Question 23}
+
+\subsubsection*{Question 24}
+
+\subsubsection*{Question 25}
+
+\section{Final Thoughts}
+\subsubsection*{Question 30}
+I feel that the purpose of this assignment was to introduce the basics of machine learning using a statistical, low level approach. In doing this, we have been forced to learn the theory behind algorithms before we are able to implement them. 
+\par
+The main learning point of this assignment has been the methodology of machine learning, which involves defining a prior and likelihood with the goal of finding a posterior distribution. 
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
