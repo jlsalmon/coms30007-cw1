@@ -94,8 +94,6 @@ def calculate_likelihood(w0, w1, x, y, beta):
     n = w0.shape[0]
     pdf = np.zeros((n, n))
 
-    # TODO: use numpy.random.randn here?
-
     # TODO: can this be rewritten in terms of numpy/scipy functions?
     for i in range(0, n - 1):
         for j in range(0, n - 1):
@@ -125,7 +123,6 @@ def calculate_posterior(x, y, mean, covariance, beta, likelihood, prior):
 def predict(x, mean, covariance, num_samples):
     """Predict a number of y-values given some x-values"""
     w_sample = np.random.multivariate_normal(mean, covariance, size=num_samples)
-    # TODO: understand this bit, which equation is it?
     y = phi(x).dot(w_sample.T)
     return y
 
