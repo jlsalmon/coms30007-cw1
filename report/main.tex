@@ -245,27 +245,56 @@ The objective function can be written as:
 
 \begin{multline}
   \mathcal{L}(\mathbf{W}) = -log(p(\mathbf{Y}|\mathbf{W}, \bm{\mu}, \bm{\sigma}^2)) \\
-  = -\frac{ND}{2}log(2\pi) - \frac{N}{2}log|\mathbf{C}| \\
-     - \frac{1}{2}\sum^N_{n=1}(\mathbf{x_n} - \bm{\mu}^T\mathbf{C}^{-1}(\mathbf{x_n} - \bm{\mu})
+  = -\frac{ND}{2}log(2\pi) - \frac{N}{2}log|\mathbf{C}| - tr(\mathbf{(YC)^{-1}Y^T})
 \end{multline}
 
 where $\mathbf{C} = \mathbf{WW^T} + \bm{\sigma^2}\mathbf{I}$. The gradients of the objective function with respect to the parameters can be written as:
 
 \begin{multline}
-  \frac{\partial \mathcal{L}}{\partial \mathbf{W}} = tr(\mathbf{C^{-1}WJ_{ij} +  J_{ji}W^T}) \\
-  + tr(\mathbf{YY^T(-C^{-1}(WJ_{ij} +  J_{ji}W^T)C^{-1}})
+  \frac{\partial \mathcal{L}}{\partial \mathbf{W}} = tr(\mathbf{C^{-1}(WJ_{ij} +  J_{ji}W^T)}) \\
+  + tr(\mathbf{Y^TY(-C^{-1}(WJ_{ij} +  J_{ji}W^T)C^{-1}})
 \end{multline}
 
-where $WJ_{ij} +  J_{ji}W^T$ = $\frac{\partial \mathbf{C}}{\partial \mathbf{W_{ij}}}$.
+where $\mathbf{WJ_{ij} +  J_{ji}W^T}$ = $\frac{\partial \mathbf{C}}{\partial \mathbf{W_{ij}}}$.
 
 \subsubsection*{Question 20}
 The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. (not 100\% sure). 
 
 \subsubsection*{Question 21}
 
+We first mapped the input variables $\mathbf{x}$ non-linearly to a 2D space and plotted the result. This gives a uniform spiral shape as seen in Figure \ref{fig:sub1}. We then mapped this linearly to a 10D space. Given the objective function and gradients from above, we then minimised the log likelihood to "learn" the linear mapping parameters W. Using the new parameters, we performed the reverse of the linear mapping back to 2D space and obtained another (slightly different) spiral which can be seen in Figure \ref{fig:q21b}.
 
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{q21_a.png}
+  \caption{Original 2D subspace.}
+  \label{fig:q21a}
+\end{subfigure}%
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{q21_b.png}
+  \caption{Subspace learnt via Type-II ML.}
+  \label{fig:q21b}
+\end{subfigure}
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{q22.png}
+  \caption{Random subspace.}
+  \label{fig:q22}
+\end{subfigure}
+\caption{Subspaces representing a 2D non-linear mapping from a 1D input vector. }
+\end{figure}
+
+We expected the recovered shape to be more similar to the original shape. We suspect there may be an error in the minimisation process (probably somewhere in computing the gradients).
+
+Since we have only learned the parameters for the linear part of the mapping, it does not immediately appear possible to recover the original latent variables themselves.
 
 \subsubsection*{Question 22}
+
+Choosing any randomly initialised W matrix and performing the reverse mapping also results in a spiral shape, as can be seen in Figure \ref{fig:q22}. However, the shape is slightly different, the dimensions are different.
+
 
 \section{The Evidence}
 
