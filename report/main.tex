@@ -411,7 +411,7 @@ The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. Therefore, by m
 
 \subsubsection*{Question 21}
 
-We first mapped the input variables $\mathbf{x}$ non-linearly to a 2D space and plotted the result. This gives a uniform spiral shape as seen in Figure \ref{fig:sub1}. We then mapped this linearly to a 10D space. Given the objective function and gradients from above, we then minimised the log likelihood to "learn" the linear mapping parameters W. Using the new parameters, we performed the reverse of the linear mapping back to 2D space and obtained another (slightly different) spiral which can be seen in Figure \ref{fig:q21b}.
+We first mapped the input variables $\mathbf{x}$ non-linearly to a 2D space and plotted the result. This gives a uniform spiral shape as seen in Figure \ref{fig:sub1}. We then mapped this linearly to a 10D space. Given the objective function and gradients from above, we then minimised the log likelihood to "learn" the linear mapping parameters W. Using the new parameters, we performed the reverse of the linear mapping back to 2D space and obtained another (slightly different) spiral, a particular example of which can be seen in Figure \ref{fig:q21b}.
 
 \begin{figure}[!htb]
 \centering
@@ -436,14 +436,13 @@ We first mapped the input variables $\mathbf{x}$ non-linearly to a 2D space and 
 \caption{Subspaces representing a 2D non-linear mapping from a 1D input vector. }
 \end{figure}
 
-We expected the recovered shape to be more similar to the original shape. We suspect there may be an error in the minimisation process (probably somewhere in computing the gradients).
+We expected the recovered shape to be more similar to the original shape. We considered that there may be an error in the minimisation process (probably somewhere in computing the gradients). We obtain a different shape every time we run the code, due to the randomised starting point for the gradient descent. We assume this is because there are many local minima in the 10D space, and the gradient descent is not guaranteed to find the global minima and is likely to get stuck in a local minima.
 
-Since we have only learned the parameters for the linear part of the mapping, it does not immediately appear possible to recover the original latent variables themselves.
+Since we have only learned the parameters for the linear part of the mapping and not the non-linear part, it does not immediately appear possible to recover the original latent variables themselves.
 
 \subsubsection*{Question 22}
 
-Choosing any randomly initialised W matrix and performing the reverse mapping also results in a spiral shape, as can be seen in Figure \ref{fig:q22}. However, the shape is slightly different, the dimensions are different.
-
+Choosing any randomly initialised W matrix and performing the reverse mapping also results in a spiral shape, as can be seen in Figure \ref{fig:q22}. However, the shape is slightly different in dimension. In fact, this shape is often more similar to the original than the one obtained via gradient descent. It is not understood why this is the case.
 
 \section{The Evidence}
 
@@ -459,9 +458,7 @@ Tic tac toe, only 512 possible boards. Can compute integral as sum. Trying to bu
 
 \section{Final Thoughts}
 \subsubsection*{Question 30}
-I feel that the purpose of this assignment was to introduce the basics of machine learning using a statistical, low level approach. In doing this, we have been forced to learn the theory behind algorithms before we are able to implement them. 
-\par
-The main learning point of this assignment has been the methodology of machine learning, which involves defining a prior and likelihood with the goal of finding a posterior distribution. 
+The authors feel that the purpose of this assignment was to introduce the basics of machine learning using a statistical, low level, brutal, sadistic, trauma-inducing and slightly evil approach that is terrifying for those without a strong background in mathematics. Students are thrown in to the deep end of a swimming pool and forced to learn the theory behind the techniques in gory detail before being able to truly understand or implement them. However, in the end, the differences between the various techniques we have explored have started to become clearer (although knowing which technique to pick in which situation based on real data still seems a long way off). One main learning point that is more or less clear is that all the techniques involve making some assumptions about some data, formulating those assumptions into prior distributions and then churning the Bayesian handle to produce some intelligible posterior result.
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
