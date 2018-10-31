@@ -67,23 +67,25 @@
 \subsection{Theory}
 
 \subsubsection*{Question 1.1}
-A Gaussian likelihood encodes the inherent noise present in most real-world data. The central limit theorem states that in most cases, when independent random variables are added and normalised, the result is a gaussian distribution. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good first assumption to make about unknown data.
+Choosing a Gaussian likelihood encodes the assumption that the observations of the variates are going to behave like most probabilistic natural processes and are going to contain some inherent noise. The central limit theorem states that in most cases, when independent random variables are sampled the result is a Gaussian distribution. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good first assumption to make about unknown data.
 %Noise in input data - assume noise is gaussian -> implies gaussian likelihood
 \subsubsection*{Question 1.2}
 Choosing a spherical covariance matrix means that we are assuming that the distribution is equally likely to deviate from the mean in all directions. Additionally, we assume that all dimensions of \emph{y} are independent, and therefore do not covary with one another. Again, this is a good place to start. \par
-Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the different dimensions of \emph{y}.
+Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the different dimensions of \emph{y}, which is not true in this case.
 
 % *input and output, which is not true in this case.
 
 \subsubsection*{Question 2}
-The covariance matrix would not be in terms of the identity matrix. We would have non-zero values in the offset diagonals which correspond to the correlations between different variables. If we apply the product rule, 
+If we did not assume independence of the data, the covariance matrix would not be in terms of the identity matrix. We would have non-zero values in the offset diagonals which correspond to the correlations between different variables.
 
 \subsubsection{Linear Regression}
 
 \subsubsection*{Question 3}
 
+The specific form of the likelihood can be written as
+
 \begin{align}
-  p(\mathbf{Y} | \mathbf{X}, \mathbf{W}, \beta) = \prod_{i=0}^N \mathcal{N} (y_i | \mathbf{W}^T\phi(x_i), \beta^-1)
+  p(\mathbf{Y} | \mathbf{X}, \mathbf{W}, \beta) = \prod_{i=0}^N \mathcal{N} (y_i | \mathbf{W}^T\phi(x_i), \beta^{-1}) .
 \end{align}
 
 \subsubsection*{Question 4}
@@ -94,9 +96,9 @@ A distribution is conjugate to another if they both take the same algebraic form
 
 \subsubsection*{Question 5}
 
-Euclidean distance from the mean
-X appears only in the gaussian exponential part
-Euclidean distance because of spherical covariance? 
+The distance function of a Gaussian distribution represents the dissimilarity of a given value of a random variable (in this case a parameter choice $\mathbf{W}$) from the expected value (the mean). The further away from the mean the parameter choice is, the less likely we think it will be true.
+
+In the 2 dimensional case, it is easy to think about this geometrically as the distance between two points on a Euclidean plane. For a spherical covariance matrix, the distance is going to be the squared Euclidean distance from the mean $||x - \mu||$. This is because the variables are independent and we have picked the distribution such that it has unit variance. If those two conditions were not true, the Gaussian would not be spherical and the distribution would be deformed. The spherical covariance case can be seen as a special case where the distance function is Euclidean. In general the distance between two points in a distribution is called the Mahalanobis distance.
 
 \subsubsection*{Question 6}
 
@@ -106,48 +108,61 @@ Derive posterior mean and covariance, start at conjugacy. Watch video https://ww
 
 \subsubsection*{Question 7}
 
-Non-parametric models are not focused on defining a set of parameters, but using what we know about the current data to classify new unseen data points. The data can be seen as analogous to the parameters. A good example of this is the K-nearest-neighbor model, which classifies new data points based on its surrounding classes. Unlike parametric models, non-parametric models do not assume that there is a finite set of parameters. Because of this, their complexity is not bounded by the number of parameters. 
-\par
-Non-parametric models may be more difficult to interpret as they do not have direct parameters to describe the model. 
+Parametric models make an assumption about the form of the relationship between variates i.e. they specify a finite set of basis functions in advance. For example, we can assume linear basis functions, nonlinear polynomial basis functions of varying degrees, or other types of nonlinear basis function. The "parameters" of these models are the coefficients of the basis functions. Conversely, non-parametric models do not specify explicit basis functions but rather seek to allow an infinite set of functions. Gaussian Processes are a type of non-parametric model that wrap this infinite set of functions in a prior distribution.
+
+Non-parametric models focused on using what we know about the current data to classify new unseen data points. The data can be seen as analogous to the parameters. A good example of this is the K-nearest-neighbour model, which classifies new data points based on its surrounding classes. 
+
+Non-parametric models may be more difficult to interpret as they do not have direct parameters to describe the model. It is not always clear how the relationship between variates has been learnt.
 
 \subsubsection*{Question 8}
 
-This prior represents the space of all possible functions, however we want this to be constrained by making some functions more likely than others. The covariance $ k(\mathbf{X}, \mathbf{X})$ allows us to assume that any two values $x_i$ and $x_j$ covary, therefore $f_i$ and $f_j$ can also be expected to covary. This means that we think that smooth functions are more likely, however the probability of saw-tooth functions are non-zero.
+The GP prior represents a distribution of the space of all possible functions on the 2D plane. By giving the prior a zero mean and uniform variance, we are essentially saying that we think the most likely intersection of a function passing through a vertical line at $x$ will have a $y$ coordinate of 0. Extending out to along the entire $x$ axis, the most likely function will be a flat horizontal line (the $x$ axis itself). However in reality we know that the functions are not likely to be linear - the prior allows for this in that every vertical line through the $x$ axis has a Gaussian likelihood associated with it.
 
 \subsubsection*{Question 9}
 
-All functions are possible, however some are more likely than others. 
+Since the prior mean and covariance is the same for all $x$ coordinates, as mentioned above some functions are more likely than others. For example, smoother and flatter functions are considered more likely by this prior, since the difference between the $y$ coordinates of two adjacent intersection points will be smaller and hence closer to the mean. The covariance $ k(\mathbf{X}, \mathbf{X})$ allows us to assume that any two values $x_i$ and $x_j$ covary, therefore $f_i$ and $f_j$ can also be expected to covary. 
+
+This means that we think that smooth functions are more likely, however the probability of more rapidly changing functions is non-zero. In fact, all functions have a non-zero probability.
 
 \subsubsection*{Question 10}
 
+The joint distribution of the GP model can be written as
+
 \begin{align}
-  p(\mathbf{Y},\mathbf{X}, f, \mathbf{\theta}) = p(Y|f)p(F|X,\theta)p(X)p(\theta)
+  p(\mathbf{Y},\mathbf{X}, f, \mathbf{\theta}) = p(\mathbf{Y}|f)p(f|\mathbf{X},\theta)p(\mathbf{X})p(\theta).
 \end{align}
+
+The corresponding graphical model is shown in Figure \ref{fig:q10}.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\linewidth]{question_10.png}}
 \caption{Graphical model of the joint distribution.}
-\label{fig2}
+\label{fig:q10}
 \end{figure}
+
+The assumptions that have been made are:
 
 \begin{itemize}
 \item $\mathbf{X}$ and $\theta$ do not depend on anything;
-\item $\mathbf{F}$ depends on $\theta$ and $\mathbf{X}$;
-\item $\mathbf{Y}$ depends on $\mathbf{F}$, but is is conditionally independent of $\mathbf{X}$ and $\theta$.
+\item $f$ depends on $\theta$ and $\mathbf{X}$;
+\item $\mathbf{Y}$ depends on $f$, but is is conditionally independent of $\mathbf{X}$ and $\theta$.
 \end{itemize}
+
 \subsubsection*{Question 11}
 
-The marginalisation in Eq. 2 connects the prior and the data because we now have a way to directly generate $\mathbf{Y}$  values given $\mathbf{X}$ and $\theta$ value without knowing the actual form of $f$.
+The marginalisation $p(\mathbf{Y|X,\theta})$ connects the prior and the data because we now have a way to directly generate $\mathbf{Y}$ values given $\mathbf{X}$ and $\theta$ values without knowing the actual form of $f$.
 \par
 Because we are uncertain about $f$, when we marginalise it out, the uncertainty gets pushed onto $\mathbf{Y}$.
 \par
-The fact that $\mathbf{\theta}$ is left on the left hand side of the expression after marginalisation means that it is needed, with $\mathbf{x}$, to calculate $\mathbf{Y}$. This implies that $\mathbf{Y}$ is dependent on theta.
+The fact that $\mathbf{\theta}$ is left on the left hand side of the expression after marginalisation means that it is needed, along with $\mathbf{x}$, to calculate $\mathbf{Y}$. This implies that $\mathbf{Y}$ is dependent on theta.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\linewidth]{question_11.png}}
 \caption{Graphical model of the marginalised distribution.}
-\label{fig2}
+\label{fig:q11}
 \end{figure}
+
+The graphical model of the marginal $p(\mathbf{Y|X,\theta})$ is shown in Figure \ref{fig:q11} and shows how $\mathbf{Y}$ is now dependent on only $\mathbf{X}$ and $\mathbf{\theta}$.  The function $f$ (and its uncertainty) has been "baked in" to $\mathbf{Y}$.
 
 %Use the model diagram to help?
 %Marginalisation is the average of some distributions
@@ -156,19 +171,41 @@ The fact that $\mathbf{\theta}$ is left on the left hand side of the expression 
 \subsubsection{Linear Regression}
 \subsubsection*{Question 12.1}
 
-\begin{figure}[!htb]
+The prior distribution over $\mathbf{W}$ can be seen in the middle column of the top row of Figure \ref{fig:q12}. The red cross represents the true value of $\mathbf{W}$. The spherical covariance gives rise to a symmetrical distribution.
+
+The rightmost column of the top row of Figure \ref{fig:q12} shows six random samples drawn from the prior which clearly do not have any well defined direction, which is exactly as expected since we have no data to make predictions with.
+
+\subsubsection*{Question 12.2}
+
+The second row of Figure \ref{fig:q12} show the result of picking a single data point. The leftmost column plots the likelihood distribution in $\mathbf{W}$-space of the data point. The middle column shows the posterior distribution after the likelihood has been combined with the prior. It can be seen visually that the prior has been squashed along the dimension of the likelihood. 
+
+\subsubsection*{Question 12.3}
+
+The rightmost column shows that the sampled functions now all pass through the observed data point, but do not yet agree completely in direction.
+
+\subsubsection*{Question 12.4}
+
+The lower two columns of Figure \ref{fig:q12} show the likelihood, posterior and data space samples after adding two and twenty points respectively. 
+
+\begin{figure}[htb]
 \centerline{\includegraphics[width=\linewidth]{q12.png}}
 \caption{Implementation of linear regression. The left hand column plots the likelihood. The middle column plots the prior/posterior, and the right hand column shows six random sample functions. Plots are drawn after one, two and twenty data points are revealed.}
-\label{fig2}
+\label{fig:q12}
 \end{figure}
 
 \subsubsection*{Question 12.5}
-After a single data point is added, we can see that the posterior distribution begins to squash in one direction to converge onto the parameters $\mathbf{W}$. When we sample from this distribution, there are many lines passing through the point at different gradients, which is because we cannot define two parameters from a single data point. As we begin to reveal more data, the posterior distribution centres onto $\mathbf{W}$ and the sample functions fit more closely to the data points. This is a desirable behaviour as it shows that we have relearned the parameters of the model used to generate the data $\mathbf{X}$.
+After a single data point is added, we can see that the posterior distribution begins to squash in one direction to converge onto the parameters $\mathbf{W}$. When we sample from this distribution, there are many lines passing through the point at different gradients, which is because we cannot define two parameters from a single data point. As we begin to reveal more data, the posterior distribution centres onto $\mathbf{W}$ and the sample functions fit more closely to the data points. This is exactly what we want to happen as it shows that we have relearned the parameters of the model used to generate the data $\mathbf{X}$.
+
 \subsubsection*{Question 12.6}
-The posterior converges on the position of $\mathbf{W}$ because after a new data point is added, we update the parameters using the newly calculated mean and covariance. 
+The posterior converges on the position of $\mathbf{W}$ because after a new data point is added, we update the parameters using the newly calculated mean and covariance. As we see more data, we become more and more confident about the true value of $\mathbf{W}$.
+
+
+\subsubsection{Non-parametric Regression}
 \subsubsection*{Question 13}
 
-\begin{figure}[!htb]
+Figure \ref{fig:q13} shows three examples of samples taken from a GP prior with a squared exponential covariance function that has a single hyper-parameter $l$ which encodes the length scale of the sample functions. The three values of $l$ are 0.1, 0.5 and 5 respectively.
+
+\begin{figure}[htb]
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
@@ -188,17 +225,30 @@ The posterior converges on the position of $\mathbf{W}$ because after a new data
 \caption{Length-scale of 5}
 \end{subfigure}
 \caption{Squared exponential with varying length scales. }
-\label{fig:test}
+\label{fig:q13}
 \end{figure}
 
-\subsubsection*{Question 13.4}
-Increasing the length-scale of the covariance function allows us to constrain the functions smoothness. A smaller length-scale creates  functions with more rapid changes than those with a larger length-scale. This is because a higher length-scale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
-The samples in Fig 5 show the effect of varying lengthscales. 
+Increasing the length-scale of the covariance function allows us to constrain the smoothness of the sample functions. A smaller length-scale creates functions with more rapid changes than those with a larger length-scale. This is because a higher length-scale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
 
-\subsubsection*{Question 13.5}
-The lengthscale encodes how smooth the assume the function to be. A smaller lengthscale produces a function with higher peaks and lower troughs than a higher lengthscale. 
+Choosing a larger length-scale encodes the assumption that smoother function with lower frequency is preferable to high frequency, more oscillatory functions. In other words, we prefer functions that change less rapidly.
 
 \subsubsection{Question 14}
+
+The predictive posterior distribution is a Gaussian given by 
+
+\begin{align}
+  p(\mathbf{Y}_{N+1}|\mathbf{Y}) = \mathcal{N}(\mathbf{M}_{N+1}, \mathbf{C}_{N+1})
+\end{align}
+
+where
+
+\begin{equation}
+  \mathbf{M}_{N+1} = \mathbf{k^T}\mathbf{C}_N^{-1}\mathbf{Y} \\
+  \mathbf{C}_{N+1} = c - \mathbf{k^T}\mathbf{C}_N^{-1}\mathbf{k} 
+\end{equation}
+
+and $\mathbf{C_N}$ is the previous covariance matrix, $\mathbf{k}$ has elements $k(\mathbf{x}_n, \mathbf{x}_{N+1}$ (i.e. the kernel function invoked with all the previous data points and the new data point) and $c$ is a scalar that equals $k(\mathbf{x}_{N+1}, \mathbf{x}_{N+1}$ (i.e. the kernel function over just the new data point).
+
 Need to describe the plots. What happens if we use a diagonal covariance matrix to the squared exponential. 
 
 %functions not passing exactly through the data, do you have a diagonal term?
