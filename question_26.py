@@ -9,9 +9,25 @@ def main():
     mean1 = np.zeros(1)
     mean2 = np.zeros(2)
     mean3 = np.zeros(3)
+
+
+
+    #mean1 = np.full((1), 20)
+    #mean2 = np.full((2), 20)
+    #mean3 = np.full((3), 20)
+    #mean1 = np.random.rand(1, 0)
+    #mean2 = np.random.rand(2, 0)
+    #mean3 = np.random.rand(3, 0)
+
+
     covariance1 = (10 ** 3) * np.eye(1)
     covariance2 = (10 ** 3) * np.eye(2)
     covariance3 = (10 ** 3) * np.eye(3)
+
+    #covariance1 = np.random.rand(1, 1)
+    #covariance2 = np.random.rand(2, 2)
+    #covariance3 = np.random.rand(3, 3)
+
 
     num_samples = 10
 
@@ -44,6 +60,59 @@ def main():
     plt.xlim(0, 60)
     plt.legend()
     plt.show()
+
+    max0 = np.argmax(data[0])
+    min0 = np.argmin(data[0])
+
+    max1 = np.argmax(data[1])
+    min1 = np.argmin(data[1])
+
+    max2 = np.argmax(data[2])
+    min2 = np.argmin(data[2])
+
+    max3 = np.argmax(data[3])
+    min3 = np.argmin(data[3])
+
+    plotboard(D[min0])
+    plotboard(D[max0])
+    plotboard(D[min1])
+    plotboard(D[max1])
+    plotboard(D[min2])
+    plotboard(D[max2])
+    plotboard(D[min3])
+    plotboard(D[max3])
+
+
+def plotboard(data):
+    # create a 8" x 8" board
+    fig = plt.figure(figsize=[3, 3])
+    ax = fig.add_subplot(111)
+
+    # draw the grid
+    for x in range(4):
+        ax.plot([x, x], [0, 3], 'k')
+    for y in range(4):
+        ax.plot([0, 3], [y, y], 'k')
+
+    # scale the axis area to fill the whole figure
+    ax.set_position([0, 0, 0, 0])
+
+    # get rid of axes and everything (the figure background will show through)
+    ax.set_axis_off()
+    for i in range(3):
+        for j in range(3):
+            if data[i][j] == -1:
+                ax.plot(i + 0.5, j + 0.5, 'o', markersize=30, markeredgecolor=(0, 0, 0), markerfacecolor='w',
+                              markeredgewidth=2)
+            if data[i][j] == 1:
+                ax.plot(i + 0.5, j + 0.5, 'x', markersize=30, markeredgecolor=(0, 0, 0), markerfacecolor='w',
+                        markeredgewidth=2)
+
+    plt.show()
+
+
+
+
 
 
 def sample_prior(mu, sigma, num_samples):
