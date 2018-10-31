@@ -108,7 +108,7 @@ y_i = \mathbf{W}x_i + \epsilon
 \end{equation*}
 The added noise is in the form of a gaussian distribution.\\
 \begin{equation*}
-\epsilon \sim \mathcal{N}(0, \sigma^2 I)
+\epsilon \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})
 \end{equation*}
 The likelihood has been specified using,
 \begin{equation*}
@@ -116,7 +116,7 @@ p(\mathbf{Y}|\mathbf{W},\mathbf{X}) = \mathcal{N}(\mathbf{W} \mathbf{X}, \sigma^
 \end{equation*}
 and we have specified a prior distribution. 
 \begin{equation*}
-p(\mathbf{W}) = \mathcal{N}(0, \Sigma)
+p(\mathbf{W}) = \mathcal{N}(\mathbf{0}, \mathbf{\Sigma})
 \end{equation*}
 To avoid calculating the evidence, we use a posterior distribution that is conjugate to the likelihood. Gaussian distributions are conjugate to themselves, so we use a gaussian for the posterior. The posterior distribution is proportional to the likelihood times the prior. 
 \begin{equation*}
@@ -400,7 +400,10 @@ where $\mathbf{C} = \mathbf{WW^T} + \bm{\sigma^2}\mathbf{I}$. The gradients of t
 where $\mathbf{WJ_{ij} +  J_{ji}W^T}$ = $\frac{\partial \mathbf{C}}{\partial \mathbf{W_{ij}}}$.
 
 \subsubsection*{Question 20}
-The uncertainty in $\mathbf{X}$ and $\theta$ is pushed into $f$. Therefore, by marginalising out $\mathbf{X}$, we lose some of the information required to calculate an accurate $\mathbf{Y}$.
+$\mathbf{Y}$ is dependent on both $\mathbf{X}$ and $\mathbf{\theta}$, which both contain a level of uncertainty. By marginalising out $\mathbf{X}$, the uncertainty will be filtered down into the marginal distribution of $\mathbf{Y}$. 
+\par
+Marginalising out $f$ is easier than $\mathbf{X}$, as $\mathbf{X}$ does not depend on anything. 
+
 
 \subsubsection*{Question 21}
 
