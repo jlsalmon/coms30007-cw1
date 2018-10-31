@@ -102,7 +102,65 @@ In the 2 dimensional case, it is easy to think about this geometrically as the d
 
 \subsubsection*{Question 6}
 
-Derive posterior mean and covariance, start at conjugacy. Watch video https://www.youtube.com/watch?v=nrd4AnDLR3U
+We have data generated from a linear model, with added Gaussian noise using the following mapping. 
+\begin{equation*}
+y_i = \mathbf{W}x_i + \epsilon
+\end{equation*}
+The added noise is in the form of a gaussian distribution.\\
+\begin{equation*}
+\epsilon \sim \mathcal{N}(0, \sigma^2 I)
+\end{equation*}
+The likelihood has been specified using,
+\begin{equation*}
+p(\mathbf{Y}|\mathbf{W},\mathbf{X}) = \mathcal{N}(\mathbf{W} \mathbf{X}, \sigma^2I)
+\end{equation*}
+and we have specified a prior distribution. 
+\begin{equation*}
+p(\mathbf{W}) = \mathcal{N}(0, \Sigma)
+\end{equation*}
+To avoid calculating the evidence, we use a posterior distribution that is conjugate to the likelihood. Gaussian distributions are conjugate to themselves, so we use a gaussian for the posterior. The posterior distribution is proportional to the likelihood times the prior. 
+\begin{equation*}
+p(\mathbf{W}|\mathbf{Y},\mathbf{X}) \propto p(\mathbf{Y}|\mathbf{W},\mathbf{X})p(\mathbf{W})
+\end{equation*}
+By writing the exponent of the likelihood times the prior, we can split the exponent into three pieces. 
+\begin{equation}
+= \underbrace{\frac{1}{2\sigma^2}\mathbf{Y}^{T}\mathbf{Y}}_\text{A} + \underbrace{\frac{1}{\sigma^{2}}\mathbf{Y}^{T}(\mathbf{XW})}_\text{B}-\underbrace{\frac{1}{2\sigma^2}(\mathbf{XW})^T(\mathbf{XW})-\frac{1}{2}\mathbf{W}^{T}\Sigma^{-1}\mathbf{W}}_\text{C}
+\end{equation}
+\begin{itemize}
+\item A is the constant. As it does not contain $\mathbf{W}$, it is used to find the posterior covariance;
+\item B is linear, and we can use it to find the mean;
+\item C is quadratic in $\mathbf{W}$.
+\end{itemize}
+\begin{equation*}
+C=\frac{1}{2\sigma^{2}}(\mathbf{XW})-\frac{1}{2}\mathbf{W}^{T}\Sigma^{-1}\mathbf{W}
+\end{equation*}
+\begin{equation*}
+= -\frac{1}{2}\mathbf{W}^{T}(\frac{1}{\sigma^{2}}\mathbf{X}^{T}\mathbf{X} + \Sigma^{-1})\mathbf{W}
+\end{equation*}
+Which allows us to define the posterior covariance matrix,
+\begin{equation*}
+S^{-1} = \frac{1}{\sigma^{2}}\mathbf{X}^{T}\mathbf{X}+\Sigma^{-1}
+\end{equation*}
+and use B to find the mean. 
+\begin{equation*}
+B=\frac{1}{\sigma^{2}}\mathbf{Y}^T(\mathbf{XW}) = \frac{1}{\sigma^2}\mathbf{W}^T\mathbf{X}^T\mathbf{Y}^T
+\end{equation*}
+We can use the linear term (B) to solve for $\mu$.
+\begin{equation*}
+\mathbf{W}^TS^{-1}\mu = \mathbf{W}^{T}(\frac{1}{\sigma^2}\mathbf{X}^T\mathbf{X}+\Sigma^{-1})\mu=\frac{1}{\sigma^2}\mathbf{W}^T\mathbf{X}^T\mathbf{Y}
+\end{equation*}
+\begin{equation*}
+\mu = \frac{1}{\sigma^2}(\frac{1}{\sigma^2}\mathbf{X}^T\mathbf{X}+\Sigma^{-1})^{-1}\mathbf{X}^{T}\mathbf{Y}
+\end{equation*}
+Finally, we can write the posterior distribution for linear regression.
+\begin{equation}
+p(\mathbf{W|Y,X}) = \mathcal{N}(\textbf{W}|\frac{1}{\sigma^2}(\frac{1}{\sigma^2}\mathbf{X}^T\mathbf{X}+\Sigma^{-1})^{-1}\mathbf{X}^T\mathbf{Y},(\frac{1}{\sigma^2}\mathbf{X}^T\mathbf{X}+\Sigma^{-1})^{-1})
+\end{equation}
+The posterior uses $\frac{1}{\mathbf{Z}}$ as a normalisation constant to ensure that the posterior is a probability distribution.
+\begin{equation*}
+p(\mathbf{W|Y, X}) = \frac{1}{\mathbf{Z}}p(\mathbf{Y|W,X})p(\mathbf{W})
+\end{equation*}
+
 
 \subsubsection{Non-parametric Regression}
 
