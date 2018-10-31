@@ -400,9 +400,10 @@ where $\mathbf{C} = \mathbf{WW^T} + \bm{\sigma^2}\mathbf{I}$. The gradients of t
 where $\mathbf{WJ_{ij} +  J_{ji}W^T}$ = $\frac{\partial \mathbf{C}}{\partial \mathbf{W_{ij}}}$.
 
 \subsubsection*{Question 20}
-$\mathbf{Y}$ is dependent on both $\mathbf{X}$ and $\mathbf{\theta}$, which both contain a level of uncertainty. By marginalising out $\mathbf{X}$, the uncertainty will be filtered down into the marginal distribution of $\mathbf{Y}$. 
+$\mathbf{Y}$ is dependent on both $\mathbf{X}$ and $\mathbf{\theta}$, which both contain a level of uncertainty. By marginalising out $f$, the uncertainty will be filtered down into the marginal distribution of $\mathbf{Y}$. 
 \par
-Marginalising out $f$ is easier than $\mathbf{X}$, as $\mathbf{X}$ does not depend on anything. 
+Marginalising out $f$ is easier than $\mathbf{X}$, as $f$ is only a dependency of $\mathbf{Y}$, whereas $\mathbf{X}$ is a dependency of both $f$ and $\mathbf{Y}$.
+Because $\mathbf{X}$ is a dependency of $f$ and $\mathbf{Y}$, we would have to deal with both $f$ and $\mathbf{Y}$ when marginalising it out. 
 
 
 \subsubsection*{Question 21}
