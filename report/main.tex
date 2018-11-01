@@ -67,16 +67,16 @@
 \subsection{Theory}
 
 \subsubsection*{Question 1.1}
-Choosing a Gaussian likelihood encodes the assumption that the observations of the variates are going to behave like most probabilistic natural processes and are going to contain some inherent noise. The central limit theorem states that in most cases, when independent random variables are sampled the result is a Gaussian distribution. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good first assumption to make about unknown data.
+Choosing a Gaussian likelihood encodes the assumption that the observations of the variates are going to behave like most probabilistic natural processes and therefore contain some inherent noise. The central limit theorem states that in most cases, when independent random variables are sampled the result is a Gaussian distribution. In other words, most probabilistic processes in nature tend to be noisy, and that noise tends to follow a Gaussian distribution. Hence this is generally a good first assumption to make about unknown data.
 %Noise in input data - assume noise is gaussian -> implies gaussian likelihood
 \subsubsection*{Question 1.2}
-Choosing a spherical covariance matrix means that we are assuming that the distribution is equally likely to deviate from the mean in all directions. Additionally, we assume that all dimensions of \emph{y} are independent, and therefore do not covary with one another. Again, this is a good place to start. \par
-Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the different dimensions of \emph{y}, which is not true in this case.
+Choosing a spherical covariance matrix means that we are assuming that the distribution is equally likely to deviate from the mean in all directions. Additionally, we assume that all dimensions of $y$ are independent, and therefore do not covary with one another. Again, this is a good place to start. \par
+Choosing a non-spherical covariance would imply that we know something in advance about the relationship between the different dimensions of $y$, which is not true in this case.
 
 % *input and output, which is not true in this case.
 
 \subsubsection*{Question 2}
-If we did not assume independence of the data, the covariance matrix would not be in terms of the identity matrix. We would have non-zero values in the offset diagonals which correspond to the correlations between different variables.
+If we did not assume independence of the data, the covariance matrix would not be in terms of the identity matrix. We would have non-zero values in the offset diagonals, which correspond to the correlations between different variables.
 
 \subsubsection{Linear Regression}
 
@@ -90,7 +90,7 @@ The specific form of the likelihood can be written as
 
 \subsubsection*{Question 4}
 
-A distribution is conjugate to another if they both take the same algebraic form, meaning that they are in the same probability distribution family. For example, Gaussians are conjugate to each other, and the conjugate to a Bernoulli distribution is a Beta distribution. Conjugates are used as a convenience to avoid calculating the denominator in Baye's rule (the evidence) which can often be an integral. If the prior and likelihood are conjugate, then their product will be proportional to the posterior.
+A distribution is conjugate to another if they both take the same algebraic form, meaning that they are in the same probability distribution family. For example, Gaussians are conjugate to each other, and the conjugate to a Bernoulli distribution is a Beta distribution. Conjugates are used as a convenience to avoid calculating the denominator in Baye's rule (the evidence), which can often be a difficult to compute integral. If the prior and likelihood are conjugate, then their product will be proportional to the posterior, and we do not have to compute the evidence.
 
 %A conjugate prior can simplify the equations for sampling. A gaussian prior is conjugate to to the likelihood function
 
@@ -122,7 +122,7 @@ To avoid calculating the evidence, we use a posterior distribution that is conju
 \begin{equation*}
 p(\mathbf{W}|\mathbf{Y},\mathbf{X}) \propto p(\mathbf{Y}|\mathbf{W},\mathbf{X})p(\mathbf{W})
 \end{equation*}
-By writing the exponent of the likelihood times the prior, we can split the exponent into three pieces. 
+The exponent of the likelihood times the prior can be split into three pieces. 
 \begin{equation}
 = \underbrace{\frac{1}{2\sigma^2}\mathbf{Y}^{T}\mathbf{Y}}_\text{A} + \underbrace{\frac{1}{\sigma^{2}}\mathbf{Y}^{T}(\mathbf{XW})}_\text{B}-\underbrace{\frac{1}{2\sigma^2}(\mathbf{XW})^T(\mathbf{XW})-\frac{1}{2}\mathbf{W}^{T}\Sigma^{-1}\mathbf{W}}_\text{C}
 \end{equation}
@@ -137,7 +137,7 @@ C=\frac{1}{2\sigma^{2}}(\mathbf{XW})-\frac{1}{2}\mathbf{W}^{T}\Sigma^{-1}\mathbf
 \begin{equation*}
 = -\frac{1}{2}\mathbf{W}^{T}(\frac{1}{\sigma^{2}}\mathbf{X}^{T}\mathbf{X} + \Sigma^{-1})\mathbf{W}
 \end{equation*}
-Which allows us to define the posterior covariance matrix,
+The result allows us to define the posterior covariance matrix,
 \begin{equation*}
 S^{-1} = \frac{1}{\sigma^{2}}\mathbf{X}^{T}\mathbf{X}+\Sigma^{-1}
 \end{equation*}
@@ -168,7 +168,7 @@ p(\mathbf{W|Y, X}) = \frac{1}{\mathbf{Z}}p(\mathbf{Y|W,X})p(\mathbf{W})
 
 Parametric models make an assumption about the form of the relationship between variates i.e. they specify a finite set of basis functions in advance. For example, we can assume linear basis functions, nonlinear polynomial basis functions of varying degrees, or other types of nonlinear basis function. The "parameters" of these models are the coefficients of the basis functions. Conversely, non-parametric models do not specify explicit basis functions but rather seek to allow an infinite set of functions. Gaussian Processes are a type of non-parametric model that wrap this infinite set of functions in a prior distribution.
 
-Non-parametric models focused on using what we know about the current data to classify new unseen data points. The data can be seen as analogous to the parameters. A good example of this is the K-nearest-neighbour model, which classifies new data points based on its surrounding classes. 
+Non-parametric models focus on using what we know about the current data to classify new unseen data points. The data can be seen as analogous to the parameters. A good example of this is the K-nearest-neighbour model, which classifies new data points based on the classes of its surrounding data points. 
 
 Non-parametric models may be more difficult to interpret as they do not have direct parameters to describe the model. It is not always clear how the relationship between variates has been learnt.
 
@@ -184,11 +184,11 @@ This means that we think that smooth functions are more likely, however the prob
 
 \subsubsection*{Question 10}
 
-The joint distribution of the GP model can be written as
+The joint distribution of the GP model is written in Equation 4.
 
-\begin{align}
-  p(\mathbf{Y},\mathbf{X}, f, \mathbf{\theta}) = p(\mathbf{Y}|f)p(f|\mathbf{X},\theta)p(\mathbf{X})p(\theta).
-\end{align}
+\begin{equation}
+  p(\mathbf{Y},\mathbf{X}, f, \bm{\theta}) = p(\mathbf{Y}|f)p(f|\mathbf{X},\bm{\theta})p(\mathbf{X})p(\bm{\theta}).
+\end{equation}
 
 The corresponding graphical model is shown in Figure \ref{fig:q10}.
 
@@ -201,18 +201,18 @@ The corresponding graphical model is shown in Figure \ref{fig:q10}.
 The assumptions that have been made are:
 
 \begin{itemize}
-\item $\mathbf{X}$ and $\theta$ do not depend on anything;
-\item $f$ depends on $\theta$ and $\mathbf{X}$;
-\item $\mathbf{Y}$ depends on $f$, but is is conditionally independent of $\mathbf{X}$ and $\theta$.
+\item $f$ depends on $\bm{\theta}$ and $\mathbf{X}$;
+\item $\mathbf{X}$ and $\bm{\theta}$ do not depend on anything;
+\item $\mathbf{Y}$ depends on $f$, but is is conditionally independent of $\mathbf{X}$ and $\bm{\theta}$.
 \end{itemize}
 
 \subsubsection*{Question 11}
 
-The marginalisation $p(\mathbf{Y|X,\theta})$ connects the prior and the data because we now have a way to directly generate $\mathbf{Y}$ values given $\mathbf{X}$ and $\theta$ values without knowing the actual form of $f$.
+The marginalisation $p(\mathbf{Y|X,\bm{\theta}})$ connects the prior and the data because we now have a way to directly generate $\mathbf{Y}$ values given $\mathbf{X}$ and $\bm{\theta}$ values without knowing the actual form of $f$.
 \par
 Because we are uncertain about $f$, when we marginalise it out, the uncertainty gets pushed onto $\mathbf{Y}$.
 \par
-The fact that $\mathbf{\theta}$ is left on the left hand side of the expression after marginalisation means that it is needed, along with $\mathbf{x}$, to calculate $\mathbf{Y}$. This implies that $\mathbf{Y}$ is dependent on theta.
+The fact that $\bm{\theta}$ is left on the left hand side of the expression after marginalisation means that it is needed, along with $\mathbf{X}$, to calculate $\mathbf{Y}$. This implies that $\mathbf{Y}$ is dependent on theta.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\linewidth]{question_11.png}}
@@ -220,7 +220,7 @@ The fact that $\mathbf{\theta}$ is left on the left hand side of the expression 
 \label{fig:q11}
 \end{figure}
 
-The graphical model of the marginal $p(\mathbf{Y|X,\theta})$ is shown in Figure \ref{fig:q11} and shows how $\mathbf{Y}$ is now dependent on only $\mathbf{X}$ and $\mathbf{\theta}$.  The function $f$ (and its uncertainty) has been "baked in" to $\mathbf{Y}$.
+The graphical model of the marginal $p(\mathbf{Y|X},\bm{\theta})$ is shown in Figure \ref{fig:q11} and shows how $\mathbf{Y}$ is now dependent on only $\mathbf{X}$ and $\bm{\theta}$.  The function $f$ (and its uncertainty) has been "baked in" to $\mathbf{Y}$.
 
 %Use the model diagram to help?
 %Marginalisation is the average of some distributions
@@ -261,34 +261,34 @@ The posterior converges on the position of $\mathbf{W}$ because after a new data
 \subsubsection{Non-parametric Regression}
 \subsubsection*{Question 13}
 
-Figure \ref{fig:q13} shows three examples of samples taken from a GP prior with a squared exponential covariance function that has a single hyper-parameter $l$ which encodes the length scale of the sample functions. The three values of $l$ are 0.1, 0.5 and 5 respectively.
+Figure \ref{fig:q13} shows three examples of samples taken from a GP prior with a squared exponential covariance function that has a single hyper-parameter $l$, which encodes the length scale of the sample functions. The three values of $l$ are 0.1 (a), 0.5 (b) and 5 (c).
 
 \begin{figure}[htb]
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
   \includegraphics[width=.9\linewidth]{ls01.png}
-  \caption{Length-scale of 0.1.}
+  \caption{lengthscale of 0.1.}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\linewidth}
   \centering
   \includegraphics[width=.9\linewidth]{ls05.png}
-  \caption{Length-scale of 0.5.}
+  \caption{lengthscale of 0.5.}
   \label{fig:sub2}
 \end{subfigure}
 \begin{subfigure}{.5\linewidth}
 \centering
 \includegraphics[width=0.9\linewidth]{ls5.png}
-\caption{Length-scale of 5}
+\caption{lengthscale of 5}
 \end{subfigure}
 \caption{Squared exponential with varying length scales. }
 \label{fig:q13}
 \end{figure}
 
-Increasing the length-scale of the covariance function allows us to constrain the smoothness of the sample functions. A smaller length-scale creates functions with more rapid changes than those with a larger length-scale. This is because a higher length-scale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
+Increasing the lengthscale of the covariance function allows us to constrain the smoothness of the sample functions. A smaller lengthscale creates functions with more rapid changes than those with a larger lengthscale. This is because a higher lengthscale means that, for two random variables $x_i$ and $x_j$ where the covariance is $k(x_i, x_j)$, their instantiations as $f_i$ and $f_j$ are similar. 
 
-Choosing a larger length-scale encodes the assumption that smoother function with lower frequency is preferable to high frequency, more oscillatory functions. In other words, we prefer functions that change less rapidly.
+Choosing a larger lengthscale encodes the assumption that a smoother function with lower frequency is preferable to high frequency, more oscillatory functions. In other words, we prefer functions that change less rapidly.
 
 \subsubsection{Question 14}
 
@@ -309,17 +309,17 @@ and $\mathbf{C_N}$ is the previous covariance matrix, $\mathbf{k}$ has elements 
 
 Figure \ref{fig:q14} shows three rows of the process of computing the predictive posterior and sampling from it for the three different length scales. The first column is the random samples from the prior. The middle column shows the noisy data points and the generated predictive mean, with the true function plotted underneath. It also shows the predictive variance, shaded in blue. The last column shows samples from the predictive posterior.
 
-It is clear from the plots that the samples from the posterior are more or less following the observed data. Using a longer length scale results in functions that more closely resemble the true function. If the length scale is too short, it is almost as if the functions have too many degrees of freedom and oscillate up and down quite a lot in order to pass as close as possible to the observed data points. This is not necessarily desirable as it seems as though the data has been overfitted.
+It is clear from the plots that the samples from the posterior are more or less following the observed data. Using a longer length scale results in functions that more closely resemble the true function. If the length scale is too short, it is almost as if the functions have too many degrees of freedom and oscillate up and down quite a lot in order to pass as close as possible to the observed data points. This is not necessarily desirable as it suggests that overfitting may be occurring.
 
-The functions do not pass through the data points exactly, due to the additive noise. Setting $\sigma$ to zero gets rid of this residual noise and causes the functions to go exactly through the data. However, this causes the functions to oscillate more rapidly as if they are being "forced" to pass through exact points.
+The functions do not pass through the data points exactly, due to the additive noise. Setting $\sigma$ to zero gets rid of this residual noise and causes the functions to go exactly through the data. However, this causes the functions to oscillate more rapidly as if they are being ``forced" to pass through exact points.
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=\linewidth]{non_parametric_regression.png}}
-\caption{Implementation of non-parametric regression with changing length-scales. }
+\caption{Implementation of non-parametric regression with changing lengthscales. }
 \label{fig:q14}
 \end{figure}
 
-It is interesting to note that the predictive variance "falls off" more sharply in regions where there is no data when using a shorter length scale. This is because a shorter length scale produces functions that change more rapidly, so we can be less certain about where adjacent functions will intersect. With a longer length scale, the opposite is true; since we can be fairly sure that the function isn't going to change very rapidly we can make a decent estimate as to where it will intersect in adjacent regions.
+It is interesting to note that the predictive variance ``falls off" more sharply in regions where there is no data when using a shorter length scale. This is because a shorter length scale produces functions that change more rapidly, so we can be less certain about where adjacent functions will intersect. With a longer length scale, the opposite is true; since we can be fairly sure that the function isn't going to change very rapidly we can make a decent estimate as to where it will intersect in adjacent regions.
 
 %functions not passing exactly through the data, do you have a diagonal term?
 %If you look at slide 66 in lecture 6, if you set \sigma=0 then the functions
@@ -331,11 +331,11 @@ It is interesting to note that the predictive variance "falls off" more sharply 
 \section{Posterior}
 
 \subsubsection*{Question 15}
-We use our beliefs in order to find a starting point (or "handle") for a particular problem. These beliefs allow us to make assumptions about either the input data itself or the relationship between the inputs and the outputs (i.e. the parameters). These assumptions are used to formulate our prior distributions.
+We use our beliefs in order to find a starting point (or ``handle") for a particular problem. These beliefs allow us to make assumptions about either the input data itself or the relationship between the inputs and the outputs (i.e. the parameters). These assumptions are used to formulate our prior distributions.
 
 In other words, assumptions are what we assume to be true about something. If we had all the data we required for a problem, there would be no need to assume anything. Making assumptions based on beliefs gives us a way to reason about a problem when we have very little information.
 
-A preference is an assumption that we want to use because it is easier to do so. A preference does not necessarily represent some truth about a variable, but is rather used for convenience. For example, using a Gaussian likelihood so that a posterior distribution is also Gaussian, or "preferring" a certain class of functions over another because it simplifies calculations in some way.
+A preference is an assumption that we want to use because it is easier to do so. A preference does not necessarily represent some truth about a variable, but is rather used for convenience. For example, using a Gaussian likelihood so that a posterior distribution is also Gaussian, or ``preferring" a certain class of functions over another because it simplifies calculations in some way.
 
 \subsubsection*{Question 16}
 
@@ -353,7 +353,7 @@ We know that the mean is the expectation of $\mathbf{Y}$, so we can therefore wr
   \mathbb{E}[\mathbf{Y}] = \mathbb{E}[\mathbf{WX} + \epsilon].
 \end{align}
 
-We know the expected value of $\mathbf{X}$ since we picked a prior over $\mathbf{X}$ and gave it a zero mean, so ti will be zero. We can also ignore $\epsilon$ in the expectation since it is just a noise parameter. Therefore we can deduce that the mean $\mu$ is just going to be zero.
+We know the expected value of $\mathbf{X}$ since we picked a prior over $\mathbf{X}$ and gave it a zero mean, so it will be zero. We can also ignore $\epsilon$ in the expectation since it is just a noise parameter. Therefore we can deduce that the mean $\mu$ is just going to be zero.
 
 Now to work out the covariance, we know that it is going to be the expected value of $\mathbf{Y}$ multiplied by its transpose, which we can write similarly to (\ref{eq:6}) as
 
