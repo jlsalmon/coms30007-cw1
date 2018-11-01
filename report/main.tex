@@ -82,7 +82,7 @@ If we did not assume independence of the data, the covariance matrix would not b
 
 \subsubsection*{Question 3}
 
-The specific form of the likelihood can be written as
+Since the data is assumed to be independent, the specific form of the likelihood can be written as
 
 \begin{align}
   p(\mathbf{Y} | \mathbf{X}, \mathbf{W}, \beta) = \prod_{i=0}^N \mathcal{N} (y_i | \mathbf{W}^T\phi(x_i), \beta^{-1}) .
@@ -452,13 +452,61 @@ Choosing any randomly initialised W matrix and performing the reverse mapping al
 
 \subsubsection*{Question 23}
 
-When ewe maerginalise out everything,that is normally not possible.
+$\mathcal{M}_0$ can be thought of as the simplest possible model because it just assigns the exact same probability for all possible data sets and it has no parameters whatsoever. However, it can also be considered the most complex model for the same reason, in that it can make predictions for all data sets i.e. it predicts that data will be drawn from a large range of possibilities. Other models that concentrate their probability masses around a limited number of data sets can be considered simpler than $\mathcal{M}_0$.
 
-Tic tac toe, only 512 possible boards. Can compute integral as sum. Trying to build different models for them. Given model, try to evalate probability.
+This begs the question of what the definition of complexity is - it could be argued that the number of parameters has no bearing on the complexity of the model at all, and that we need some other measure of complexity (such as the spread of probability mass).
 
 \subsubsection*{Question 24}
 
+The more parameters a model has the more degrees of freedom it can use to segment the data space. The single parameter model $\mathcal{M}_1$ is best suited to model data sets where there is a simple linear segmentation of the two regions of the data space (i.e. conceptually drawing a line where all the X's are on one side and all the O's on the other). However, there are only a few data sets that can be segmented in this way, so we would expect it to be less flexible than models with more parameters. $\mathcal{M}_2$ and $\mathcal{M_3}$ should have more flexibility to draw boundaries in the data space to segment different types of region, so will me more likely for a larger range of data sets. However, there are some data sets for which none of the parameterised models will be able to capture, in which case $\mathcal{M}_0$ will end up being the most likely.
+
 \subsubsection*{Question 25}
+
+By choosing a prior with a large variance, we are spreading the probability mass across a large portion of the parameter space i.e. choosing a wide distribution. The value of the mean should not matter in this case, as the distribution should be invariant under translation.
+
+\subsubsection*{Question 26}
+
+The sum of the evidence for each model for the whole of $\mathcal{D}$ sums to one (allowing for some numerical error tolerance). This is has to be the case since each expectation is a probability distribution and therefore by definition must sum to one.
+
+\subsubsection*{Question 27}
+
+Figure \ref{fig:q27} shows the plots of the evidence over $\mathcal{D}$ for each of the four models. The evidence distribution for $\mathcal{M}_1$ is the most obvious, since it simply assigns equal probability to each data point and is therefore a simple flat line where the probability mass is distributed equally for all $\mathcal{D}$. The rest of the models appear to generally distribute their probability masses in relation to the number of their parameters, with the most complex (most parameters) model having the widest and shallowest distribution and the least complex (fewest parameters) having the tallest and narrowest distribution. This makes sense since these models are able to segment the data space in more flexible ways.
+
+\begin{figure}[htb]
+\centerline{\includegraphics[width=\linewidth]{q27.png}}
+\caption{Evidence distributions for the four models. The most likely data set for each model is annotated with a cross.}
+\label{fig:q27}
+\end{figure}
+
+\subsubsection*{Question 28}
+
+Figure \ref{fig:q28} shows the most likely and least likely data sets for each model. The first two data sets are for $\mathcal{M_0}$ which happen to be the same - in fact by definition all data sets are equally likely with this model so these are just the first items in the array.
+
+\begin{figure}[htb]
+\centerline{\includegraphics[width=\linewidth]{q28.png}}
+\caption{Most likely (max) and least likely (min) data sets for each model.}
+\label{fig:q28}
+\end{figure}
+
+The least likely data sets for $\mathcal{M}_1$, $\mathcal{M}_2$ and $\mathcal{M}_3$ make sense since they are all have complex regions that cannot be segmented linearly therefore none of the models will have enough flexibility to express these. The most likely data set for $\mathcal{M}_3$ makes sense due to its bias term. We would also expect the opposite grid (all X's) to also be equally likely. The most likely data sets for $\mathcal{M}_1$ and $\mathcal{M}_2$ also seem easy to explain using the linear separability argument. 
+
+\subsubsection*{Question 29}
+
+Figure \ref{fig:q29_a} shows the result of changing the covariance matrix of the prior to use a randomly initialised matrix. It appears to have the effect of stretching out the distribution. It does not appear to make much sense to use a non-diagonal covariance matrix in this case, since that would imply some kind of correlation between data sets when clearly there is none.
+
+\begin{figure}[htb]
+\centerline{\includegraphics[width=\linewidth]{q29_a.png}}
+\caption{Evidence distributions for the four models using a non-diagonal covariance matrix.}
+\label{fig:q29_a}
+\end{figure}
+
+Figure \ref{fig:q29_b} shows the result of using a non-zero mean. This results in a different plot due to the randomness in the Monte Carlo sampling process, but the actual characteristics of the distributions are similar. This is as expected since shifting the mean of a distribution is an invariant operation.
+
+\begin{figure}[htb]
+\centerline{\includegraphics[width=\linewidth]{q29_b.png}}
+\caption{Evidence distributions for the four models using a non-zero mean.}
+\label{fig:q29_b}
+\end{figure}
 
 \section{Final Thoughts}
 \subsubsection*{Question 30}

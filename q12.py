@@ -66,7 +66,7 @@ def main():
         plt.scatter(x[0:n], y[0:n], s=50, zorder=10)
 
     plt.tight_layout()
-    plt.savefig('q12.png')
+    plt.savefig('report/q12.png')
     plt.show()
 
 
