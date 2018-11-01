@@ -127,8 +127,8 @@ def order(d):
 
     while len(d) != 0:
         n = []
-        for k in range(len(d)):
-            n = dist[d[k], d].argmin()
+        for i in range(len(d)):
+            n = dist[d[i], d].argmin()
             if d[n] == ll:
                 n.append(d[n])
         if n:
