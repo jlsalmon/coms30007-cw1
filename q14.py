@@ -69,7 +69,7 @@ def main():
             plt.title("l = {}".format(l))
 
     plt.tight_layout()
-    plt.savefig('non_parametric_regression.png', bbox_inches='tight')
+    plt.savefig('report/q14.png', bbox_inches='tight')
     plt.show()
 
 
